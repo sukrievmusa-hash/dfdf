@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Тест по арабским словам</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://googleapis.com" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-2: #0f172a;
+      --panel: rgba(15, 23, 42, 0.72);
+      --panel-strong: rgba(15, 23, 42, 0.9);
+      --border: rgba(56, 189, 248, 0.45);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-2: #818cf8;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --shadow: 0 20px 45px rgba(2, 6, 23, 0.45);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 25%),
+        radial-gradient(circle at bottom right, rgba(129, 140, 248, 0.16), transparent 25%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .app {
+      width: min(1100px, 100%);
+      min-height: 780px;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: rgba(2, 6, 23, 0.78);
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .screen {
+      display: none;
+      min-height: 780px;
+      padding: 28px;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .screen.active { display: flex; }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      backdrop-filter: blur(16px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    .hero {
+      padding: 34px 32px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    .title {
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .subtitle {
+      font-size: 1.04rem;
+      color: var(--muted);
+      max-width: 680px;
+      line-height: 1.7;
+    }
+
+    .button-row {
+      display: grid;
+      gap: 16px;
+      margin-top: 6px;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.18), rgba(129, 140, 248, 0.14));
+      color: var(--text);
+      padding: 16px 22px;
+      border-radius: 18px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(56, 189, 248, 0.75);
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.28), rgba(129, 140, 248, 0.2));
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.32), rgba(129, 140, 248, 0.26));
+      font-size: 1.05rem;
+      padding: 18px 24px;
+    }
+
+    .btn.secondary {
+      background: rgba(15, 23, 42, 0.8);
+    }
+
+    .btn.active {
+      border-color: rgba(56, 189, 248, 0.95);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.22), 0 0 20px rgba(56, 189, 248, 0.2);
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.3), rgba(129, 140, 248, 0.24));
+    }
+
+    .screen-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      padding: 6px 2px;
+    }
+
+    .screen-header h2 {
+      font-size: 1.45rem;
+      font-weight: 700;
+    }
+
+    .learning-list {
+      display: grid;
+      gap: 12px;
+      padding: 4px 0;
+    }
+
+    .accordion-item {
+      border: 1px solid rgba(148, 163, 184, 0.15);
+      border-radius: 18px;
+      overflow: hidden;
+      background: rgba(2, 6, 23, 0.54);
+    }
+
+    .accordion-item summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1.08rem;
+      font-weight: 600;
+    }
+
+    .accordion-item summary::-webkit-details-marker { display: none; }
+
+    .accordion-item .content {
+      padding: 0 18px 16px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.97rem;
+    }
+
+    @import url('https://googleapis.com');
+
+    .arabic-text,
+    .word-arabic,
+    .word-display {
+      font-family: 'Scheherazade New', serif;
+      font-size: 54px;
+      font-weight: 700;
+      line-height: 2.2;
+      text-align: right;
+      direction: rtl;
+      font-variant-ligatures: common-ligatures contextual;
+      font-feature-settings: "tnum" on, "lnum" on, "ccmp" on, "rlig" on;
+    }
+
+    .ayah-text {
+      font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
+      font-size: 44px !important;
+      line-height: 2.2 !important;
+      font-weight: bold !important;
+      text-align: center !important;
+      display: block;
+      margin: 15px auto;
+      direction: rtl;
+    }
+
+    .word-arabic {
+      color: #f8fafc;
+    }
+
+    .highlight-word {
+      color: #38bdf8 !important;
+      font-weight: 900 !important;
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+    }
+
+    .fixed-footer {
+      margin-top: auto;
+      display: flex;
+      justify-content: center;
+      padding-top: 8px;
+    }
+
+    .setup-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .setup-card {
+      padding: 20px 22px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .menu-actions {
+      display: grid;
+      gap: 12px;
+      width: min(100%, 420px);
+      margin-top: 12px;
+    }
+
+    .menu-divider {
+      height: 1px;
+      width: 100%;
+      max-width: 420px;
+      margin: 10px 0 2px;
+      background: rgba(148, 163, 184, 0.2);
+    }
+
+    .levels-list {
+      display: grid;
+      gap: 12px;
+      width: min(100%, 560px);
+      margin-top: 10px;
+    }
+
+    .level-btn {
+      text-align: left;
+      width: 100%;
+      justify-content: flex-start;
+    }
+
+    .lesson-card {
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .lesson-actions {
+      display: grid;
+      gap: 12px;
+      max-width: 420px;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip {
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      background: rgba(2, 6, 23, 0.62);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .chip.active {
+      border-color: rgba(56, 189, 248, 0.85);
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(129, 140, 248, 0.26));
+    }
+
+    .select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      background: rgba(2, 6, 23, 0.65);
+      color: var(--text);
+    }
+
+    .test-card {
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+      min-height: 560px;
+    }
+
+    .progress-track {
+      height: 10px;
+      width: 100%;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.18);
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 0.3s ease;
+    }
+
+    .test-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      flex-wrap: wrap;
+    }
+
+    .question-box {
+      display: grid;
+      gap: 14px;
+      align-items: center;
+      justify-items: center;
+      text-align: center;
+      padding: 28px 18px 6px;
+    }
+
+    .word-display {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(56, 189, 248, 0.32);
+      min-height: 112px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .answer-grid {
+      display: grid;
+      gap: 12px;
+      width: min(100%, 760px);
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .answer-btn {
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      background: rgba(2, 6, 23, 0.72);
+      color: var(--text);
+      padding: 14px 16px;
+      border-radius: 16px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .answer-btn:hover { border-color: rgba(56, 189, 248, 0.55); }
+
+    .answer-btn.correct {
+      border-color: rgba(34, 197, 94, 0.85);
+      background: rgba(34, 197, 94, 0.22);
+      color: #dcfce7;
+    }
+
+    .answer-btn.wrong {
+      border-color: rgba(239, 68, 68, 0.85);
+      background: rgba(239, 68, 68, 0.22);
+      color: #fee2e2;
+    }
+
+    .test-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+
+    .score-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: 1rem;
+    }
+
+    .score-item { display: inline-flex; align-items: center; gap: 8px; }
+
+    .next-btn { display: none; }
+    .next-btn:not(.hidden) { display: inline-block; }
+
+    .results-card {
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .mistake-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .mistake-item {
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 16px;
+      background: rgba(2, 6, 23, 0.55);
+      overflow: hidden;
+    }
+
+    .mistake-item summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 600;
+    }
+
+    .mistake-item summary::-webkit-details-marker { display: none; }
+
+    .mistake-item .content { padding: 0 16px 14px; color: var(--muted); }
+
+    .mistake-note {
+      margin-top: 8px;
+      color: #9ca3af;
+      font-size: 0.94rem;
+      line-height: 1.5;
+    }
+
+    .stats-panel {
+      padding: 20px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: minmax(220px, 240px) 1fr;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .stats-ring {
+      width: min(220px, 100%);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: conic-gradient(var(--success) 0 var(--correct-percent, 0%), var(--danger) var(--correct-percent, 0%) 100%);
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), 0 14px 35px rgba(2, 6, 23, 0.35);
+    }
+
+    .stats-ring-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--panel-strong);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      text-align: center;
+      padding: 16px;
+    }
+
+    .stats-ring-value {
+      font-size: 2.4rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .stats-ring-label {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .stats-meta {
+      display: grid;
+      gap: 10px;
+    }
+
+    .stat-chip {
+      padding: 12px 14px;
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 14px;
+      background: rgba(2, 6, 23, 0.58);
+      color: var(--text);
+      font-size: 0.98rem;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 800px) {
+      body { padding: 14px; }
+      .app { min-height: auto; }
+      .screen { min-height: auto; padding: 18px; }
+      .answer-grid { grid-template-columns: 1fr; }
+      .screen-header { flex-wrap: wrap; }
+      .test-footer { flex-direction: column; align-items: stretch; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section class="screen active" id="menu-screen">
+      <div class="panel hero">
+        <h1 class="title">Тест по арабским словам</h1>
+        <p class="subtitle">Откройте обучалку с первыми 20 словами или сразу переходите к тесту.</p>
+        <div class="menu-actions">
+          <button class="btn primary" data-target="learning-screen" data-action="open-learning" data-part="1">Открыть Обучалку (Первые 20 слов)</button>
+          <button class="btn primary" data-target="setup-screen" data-action="open-test" data-part="1">Перейти к Тесту</button>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="menu-actions">
+          <button class="btn primary" data-target="learning-screen" data-action="open-learning" data-part="2">Открыть Обучалку (Часть 2: Слова 21–40)</button>
+          <button class="btn primary" data-target="setup-screen" data-action="open-test" data-part="2">Перейти к Тесту (Часть 2: Слова 21–40)</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="learning-screen">
+      <div class="screen-header">
+        <h2>Изучение слов</h2>
+        <button class="btn secondary" data-target="menu-screen">Назад в меню</button>
+      </div>
+
+      <div class="panel" style="padding: 18px 20px;">
+        <div class="learning-list" id="learning-list"></div>
+      </div>
+
+      <div class="fixed-footer">
+        <button class="btn primary" data-target="setup-screen" data-action="open-test">Все выучил, начать тест</button>
+      </div>
+    </section>
+
+    <section class="screen" id="setup-screen">
+      <div class="screen-header">
+        <h2>Настройка теста</h2>
+        <button class="btn secondary" data-target="menu-screen">Назад в меню</button>
+      </div>
+
+      <div class="setup-grid">
+        <div class="panel setup-card">
+          <h3>Режим ответа</h3>
+          <div class="chip-row" id="mode-switcher">
+            <button class="chip active" data-mode="ar-ru">Арабский → Русский</button>
+            <button class="chip" data-mode="ru-ar">Русский → Арабский</button>
+          </div>
+        </div>
+
+        <div class="panel setup-card">
+          <h3>Таймер</h3>
+          <div class="chip-row" id="timer-switcher">
+            <button class="chip active" data-time="0">Без времени</button>
+            <button class="chip" data-time="10">10 секунд</button>
+            <button class="chip" data-time="15">15 секунд</button>
+            <button class="chip" data-time="30">30 секунд</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="fixed-footer">
+        <button class="btn primary" data-target="test-screen" data-action="start-test">Начать тест</button>
+      </div>
+    </section>
+
+    <section class="screen" id="test-screen">
+      <div class="panel test-card">
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+
+        <div class="test-head">
+          <div><strong id="test-title">Арабский → Русский</strong></div>
+          <div id="question-counter">Вопрос 1 из 20</div>
+        </div>
+
+        <div class="question-box">
+          <div class="word-display arabic-text" id="question-word">الْحَمْدُ</div>
+          <div>ВЫБЕРИТЕ ПЕРЕВОД</div>
+          <div class="answer-grid">
+            <button class="answer-btn">Похвала</button>
+            <button class="answer-btn">Знание</button>
+            <button class="answer-btn">Мир</button>
+            <button class="answer-btn">Терпение</button>
+          </div>
+          <div id="test-word-details" style="display: none; margin-top: 15px; padding: 15px; border-radius: 8px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);"></div>
+        </div>
+
+        <div class="test-footer">
+          <div class="score-row">
+            <div class="score-item">✔️ <span id="correct-count">0</span></div>
+            <div class="score-item">❌ <span id="wrong-count">0</span></div>
+          </div>
+          <button class="btn primary next-btn" id="next-question-btn">Следующий вопрос</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="results-screen">
+      <div class="panel results-card">
+        <div class="screen-header">
+          <h2>Результаты теста</h2>
+          <button class="btn secondary" data-target="menu-screen">Назад в меню</button>
+        </div>
+
+        <p id="results-summary">Вы ответили правильно на 0 из 20 вопросов</p>
+
+        <div class="panel stats-panel">
+          <div class="stats-grid">
+            <div class="stats-ring" id="results-ring" style="--correct-percent: 0%">
+              <div class="stats-ring-inner">
+                <div class="stats-ring-value" id="results-percent">0%</div>
+                <div class="stats-ring-label">правильных ответов</div>
+              </div>
+            </div>
+            <div class="stats-meta">
+              <div class="stat-chip">Общее время: <strong id="results-total-time">00:00</strong></div>
+              <div class="stat-chip">Среднее время на один вопрос: <strong id="results-average-time">0.0 сек</strong></div>
+              <div class="stat-chip">Правильных: <strong id="results-correct-count">0</strong></div>
+              <div class="stat-chip">Ошибок: <strong id="results-wrong-count">0</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="padding: 18px;">
+          <h3>Ваши ошибки</h3>
+          <div class="mistake-list" id="mistake-list">
+            <p>Пока нет ошибок. Вы справились отлично.</p>
+          </div>
+        </div>
+
+        <div class="fixed-footer">
+          <button class="btn primary" data-target="menu-screen">Вернуться в Главное меню</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const wordsDataset = [
+      {
+        part: 1,
+        arabic: "الْحَمْدُ",
+        translations: ["похвала"],
+        details: "Слово означает 'похвала', 'благодарение'. Используется в выражениях, связанных с восхвалением Аллаха.",
+        frequency: 412,
+        ayahArabic: "الْحَمْدُ لِلَّهِ",
+        ayahRussian: "Вся хвала Аллаху.",
+        source: "Сура 1 (Аль-Фатиха), аят 2"
+      },
+      {
+        part: 1,
+        arabic: "الْعِلْمُ",
+        translations: ["знание"],
+        details: "Слово означает 'знание', 'наука'. Один из ключевых терминов в исламской культуре.",
+        frequency: 800,
+        ayahArabic: "وَاللَّهُ بِكُلِّ شَيْءٍ عَلِيمٌ",
+        ayahRussian: "И Аллах знает о всякой вещи.",
+        source: "Сура 2 (Аль-Бакара), аят 29"
+      },
+      {
+        part: 1,
+        arabic: "الرَّحْمَةُ",
+        translations: ["милость"],
+        details: "Слово означает 'милость', 'сострадание'. Часто употребляется в духовном контексте.",
+        frequency: 115,
+        ayahArabic: "وَرَحْمَتِي وَسِعَتْ كُلَّ شَيْءٍ",
+        ayahRussian: "И Моя милость объемлет всё.",
+        source: "Сура 7 (Аль-Араф), аят 156"
+      },
+      {
+        part: 1,
+        arabic: "السَّلَامُ",
+        translations: ["мир"],
+        details: "Слово означает 'мир', 'спокойствие'. Имеет значение благополучия и мира.",
+        frequency: 92,
+        ayahArabic: "السَّلَامُ عَلَيْكُمْ",
+        ayahRussian: "Мир вам.",
+        source: "Сура 10 (Йунус), аят 10"
+      },
+      {
+        part: 1,
+        arabic: "الْإِيمَانُ",
+        translations: ["вера"],
+        details: "Слово означает 'вера', 'убежденность'. Основа религиозной и духовной жизни.",
+        frequency: 300,
+        ayahArabic: "الَّذِينَ آمَنُوا",
+        ayahRussian: "Те, которые уверовали.",
+        source: "Сура 2 (Аль-Бакара), аят 3"
+      },
+      {
+        part: 1,
+        arabic: "الْقُرْآنُ",
+        translations: ["Коран"],
+        details: "Слово означает 'Коран' — священное писание в исламе.",
+        frequency: 70,
+        ayahArabic: "ذَٰلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ",
+        ayahRussian: "Это Писание, в котором нет сомнения.",
+        source: "Сура 2 (Аль-Бакара), аят 2"
+      },
+      {
+        part: 1,
+        arabic: "الصَّبْرُ",
+        translations: ["терпение"],
+        details: "Слово означает 'терпение', 'выдержка'. Важная моральная добродетель.",
+        frequency: 107,
+        ayahArabic: "إِنَّ اللَّهَ مَعَ الصَّابِرِينَ",
+        ayahRussian: "Воистину, Аллах — с терпеливыми.",
+        source: "Сура 2 (Аль-Бакара), аят 153"
+      },
+      {
+        part: 1,
+        arabic: "الْيَوْمُ",
+        translations: ["день"],
+        details: "Существительное времени. Часто указывает на День Суда (Яум аль-Кыяма).",
+        frequency: 405,
+        ayahArabic: "مَالِكِ يَوْمِ الدِّينِ",
+        ayahRussian: "Властелину Дня воздаяния!",
+        source: "Сура 1 (Аль-Фатиха), аят 4"
+      },
+      {
+        part: 1,
+        arabic: "ءَايَة",
+        translations: ["знамение", "аят"],
+        details: "Чудо, доказательство существования Бога, а также отдельный стих Корана.",
+        frequency: 382,
+        ayahArabic: "تِلْكَ ءَايَاتُ اللَّهِ نَتْلُوهَا عَلَيْكَ",
+        ayahRussian: "Это — аяты Аллаха. Мы читаем их тебе.",
+        source: "Сура 2 (Аль-Бакара), аят 252"
+      },
+      {
+        part: 1,
+        arabic: "عَلِمَ",
+        translations: ["знать", "узнал"],
+        details: "Глагол прошедшего времени, корень а-л-м, обладание знанием.",
+        frequency: 518,
+        ayahArabic: "عَلِمَ اللَّهُ أَنَّكُمْ سَتَذْكُرُونَهُنَّ",
+        ayahRussian: "Аллах знает, что вы будете вспоминать о них.",
+        source: "Сура 2 (Аль-Бакара), аят 235"
+      },
+      {
+        part: 1,
+        arabic: "هُمْ",
+        translations: ["они"],
+        details: "Раздельное личное местоимение мужского рода множественного числа.",
+        frequency: 443,
+        ayahArabic: "وَأُولَئِكَ هُمُ الْمُفْلِحُونَ",
+        ayahRussian: "Они и есть преуспевшие.",
+        source: "Сура 2 (Аль-Бакара), аят 5"
+      },
+      {
+        part: 1,
+        arabic: "جَعَلَ",
+        translations: ["сделать", "создать", "установить"],
+        details: "Многозначный глагол действия. Означает приведение вещи в определенное состояние.",
+        frequency: 346,
+        ayahArabic: "وَجَعَلْنَا نَوْمَكُمْ سُبَاتًا",
+        ayahRussian: "И сделали ваш сон отдыхом.",
+        source: "Сура 78 (Ан-Наба), аят 9"
+      },
+      {
+        part: 1,
+        arabic: "رَسُول",
+        translations: ["посланник"],
+        details: "Пророк, посланный Аллахом со Священным Писанием и законом к народу.",
+        frequency: 332,
+        ayahArabic: "مُحَمَّدٌ رَسُولُ اللَّهِ",
+        ayahRussian: "Мухаммад — Посланник Аллаха.",
+        source: "Сура 48 (Аль-Фатх), аят 29"
+      },
+      {
+        part: 1,
+        arabic: "عَذَاب",
+        translations: ["наказание", "мучение"],
+        details: "Болезненное наказание, уготованное грешникам и неверующим.",
+        frequency: 322,
+        ayahArabic: "وَلَهُمْ عَذَابٌ أَلِيمٌ",
+        ayahRussian: "И им уготованы мучительные страдания.",
+        source: "Сура 2 (Аль-Бакара), аят 10"
+      },
+      {
+        part: 1,
+        arabic: "رَجَعَ",
+        translations: ["возвращаться", "вернулся"],
+        details: "Глагол движения прошедшего времени, возвращение к исходной точке.",
+        frequency: 104,
+        ayahArabic: "إِلَى اللَّهِ مَرْجِعُكُمْ جَمِيعًا",
+        ayahRussian: "К Аллаху — ваше возвращение, всех вас.",
+        source: "Сура 5 (Аль-Маида), аят 105"
+      },
+      {
+        part: 1,
+        arabic: "أَصْحَاب",
+        translations: ["товарищи", "спутники", "владельцы"],
+        details: "Множественное число от слова 'сахиб'. Означает спутников или хозяев чего-либо.",
+        frequency: 217,
+        ayahArabic: "أُولَئِكَ أَصْحَابُ الْجَنَّةِ",
+        ayahRussian: "Они — обитатели Рая.",
+        source: "Сура 2 (Аль-Бакара), аят 82"
+      },
+      {
+        part: 2,
+        arabic: "شَيْءَ",
+        translations: ["вещь", "что-либо", "нечто"],
+        details: "Имя существительное, обозначающее абсолютно любой существующий объект, явление, творение или материю. В Коране часто подчеркивает, что перед мощью и знанием Аллаха ни одна вещь во вселенной не может скрыться.",
+        frequency: 283,
+        ayahArabic: "إِنَّ أَللَّهَ بِكُلِّ <span class=\"highlight-word\">شَيْءٍ</span> عَلِيمٌ",
+        ayahRussian: "Воистину, Аллах знает о всякой вещи.",
+        source: "Сура 2 (Аль-Бакара), аят 282"
+      },
+      {
+        part: 2,
+        arabic: "جَاءَ",
+        translations: ["прийти", "явиться", "наступить"],
+        details: "Глагол прошедшего времени, корень дж-й-а. Означает физическое прибытие человека, либо абстрактное наступление какого-то события, обещания, истины от Господа или сурового наказания.",
+        frequency: 278,
+        ayahArabic: "إِذَا <span class=\"highlight-word\">جَاءَ</span> نَصْرُ أَللَّهِ وَأَلْفَتْحُ",
+        ayahRussian: "Когда придет помощь Аллаха и победа...",
+        source: "Сура 110 (Ан-Наср), аят 1"
+      },
+      {
+        part: 2,
+        arabic: "إِلَّا",
+        translations: ["кроме", "только", "исключая"],
+        details: "Исключающая частица (харф истисна). Имеет ключевое значение для формулы Единобожия в исламе, когда сначала идет полное отрицание всех ложных объектов поклонения, а затем исключение в пользу Одного Творца.",
+        frequency: 660,
+        ayahArabic: "لَا إِلَهَ <span class=\"highlight-word\">إِلَّا</span> أَللَّهُ مُحَمَّدٌ رَّسُولُ أَللَّهِ",
+        ayahRussian: "Нет божества, кроме Аллаха, Мухаммад — Посланник Аллаха.",
+        source: "Формула Шахады (основано на Суре 47, аят 19 и Суре 48, аят 29)"
+      },
+      {
+        part: 2,
+        arabic: "رَأَىٰ",
+        translations: ["видеть", "зреть", "считать"],
+        details: "Глагол прошедшего времени, мужского рода. Может означать как зрительное восприятие глазами, так и глубокое внутреннее убеждение, осознание умом или духовное видение истины сердцем.",
+        frequency: 271,
+        ayahArabic: "أَلَمْ <span class=\"highlight-word\">تَرَ</span> كَيْفَ فَعَلَ رَبُّكَ بِأَصْحَابِ الْفِيلِ",
+        ayahRussian: "Разве ты не видел, как твой Господь поступил с владельцами слона?",
+        source: "Сура 105 (Аль-Филь), аят 1"
+      },
+      {
+        part: 2,
+        arabic: "أَلْمُؤْمِنُونَ",
+        translations: ["верующие"],
+        details: "Имя существительное (исм фа'иль) с четкой даммой на первой букве и сукуном на хамзе. Означает человека, обретшего глубокую осознанную веру (иман) и находящегося в состоянии духовной безопасности.",
+        frequency: 220,
+        ayahArabic: "قَدْ أَفْلَحَ <span class=\"highlight-word\">أَلْمُؤْمِنُونَ</span>",
+        ayahRussian: "Воистину, преуспели верующие.",
+        source: "Сура 23 (Аль-Муминун), аят 1"
+      },
+      {
+        part: 2,
+        arabic: "خَلَقَ",
+        translations: ["создать", "сотворить"],
+        details: "Глагол прошедшего времени, корень х-л-к со всеми фатхами. Буквально означает сотворение уникальной вещи из ничего, без предвечного образца. Это действие в Коране принадлежит исключительно Аллаху.",
+        frequency: 215,
+        ayahArabic: "أِقْرَأْ بِأِسْمِ رَبِّكَ أَلَّذِي <span class=\"highlight-word\">خَلَقَ</span>",
+        ayahRussian: "Читай во имя твоего Господа, Который сотворил все сущее.",
+        source: "Сура 96 (Аль-Аляк), аят 1"
+      },
+      {
+        part: 2,
+        arabic: "تَوَلَّىٰ",
+        translations: ["отвернуться", "удалиться", "взять на себя"],
+        details: "Многозначный глагол прошедшего времени (V порода). В негативном контексте Корана означает высокомерное отворачивание человека от истины, пророков и призыва к Единобожию.",
+        frequency: 104,
+        ayahArabic: "فَإِن <span class=\"highlight-word\">تَوَلَّوْا</span> فَإِنَّ أَللَّهَ عَلِيمٌ بِأَلْمُفْسِدِينَ",
+        ayahRussian: "Если же они отвернутся, то ведь Аллах знает наводящих порчу.",
+        source: "Сура 3 (Аль-Имран), аят 63"
+      },
+      {
+        part: 2,
+        arabic: "سَمِعَ",
+        translations: ["слышать", "услышать", "внимать"],
+        details: "Глагол прошедшего времени, корень с-м-а с касрой под средней буквой. Означает физический слух или духовное принятие истины. Одно из базовых качеств Всевышнего, Который всегда слышит дуа Своих рабов.",
+        frequency: 102,
+        ayahArabic: "إِنَّنِي مَعَكُمَا <span class=\"highlight-word\">أَسْمَعُ</span> وَأَرَىٰ",
+        ayahRussian: "Воистину, Я — с вами. Я всё слышу и вижу.",
+        source: "Сура 20 (Та Ха), аят 46"
+      }
+    ];
+
+    const lessonsDataset = [
+      {
+        id: 1,
+        title: "Урок 1",
+        words: [
+          {
+            arabic: "اللّٰهِ",
+            translations: ["Аллах", "Бог"],
+            details: "Единое имя Всевышнего, означающее Бога как Творца и Господа.",
+            frequency: 2699,
+            ayahArabic: "الْحَمْدُ <span class=\"highlight-word\">لِلّٰهِ</span> رَبِّ الْعَالَمِينَ",
+            ayahRussian: "Хвала Аллаху, Господу миров.",
+            source: "Сура 1 (Аль-Фатиха), аят 2"
+          },
+          {
+            arabic: "قَالَ",
+            translations: ["сказать", "говорил"],
+            details: "Глагол прошедшего времени, означающий: 'он сказал'.",
+            frequency: 1725,
+            ayahArabic: "<span class=\"highlight-word\">قَالَ</span> إِنِّي عَبْدُ اللّٰهِ",
+            ayahRussian: "Он сказал: «Воистину, я — раб Аллаха».",
+            source: "Сура 19 (Марьям), аят 30"
+          },
+          {
+            arabic: "الَّذِي",
+            translations: ["который"],
+            details: "Относительное местоимение, связывающее части предложения.",
+            frequency: 1449,
+            ayahArabic: "<span class=\"highlight-word\">الَّذِي</span> جَعَلَ لَكُمُ الْأَرْضَ فِرَاشًا",
+            ayahRussian: "Который сделал для вас землю ковром.",
+            source: "Сура 2 (Аль-Бакара), аят 22"
+          },
+          {
+            arabic: "كَانَ",
+            translations: ["быть", "был"],
+            details: "Глагол прошедшего времени, обозначающий существование или состояние.",
+            frequency: 1358,
+            ayahArabic: "وَ<span class=\"highlight-word\">كَانَ</span> اللّٰهُ غَفُورًا رَّحِيمًا",
+            ayahRussian: "Аллах — Прощающий, Милосердный.",
+            source: "Сура 4 (Ан-Ниса), аят 96"
+          },
+          {
+            arabic: "رَبّ",
+            translations: ["Господь", "хозяин"],
+            details: "Владыка и Создатель всего сущего.",
+            frequency: 975,
+            ayahArabic: "قُلْ أَعُوذُ بِ<span class=\"highlight-word\">رَبِّ</span> الْفَلَقِ",
+            ayahRussian: "Скажи: «Прибегаю к защите Господа рассвета...»",
+            source: "Сура 113 (Аль-Фалак), аят 1"
+          },
+          {
+            arabic: "إِنَّ",
+            translations: ["поистине", "ведь"],
+            details: "Усилительная частица, подчёркивающая уверенность в сказанном.",
+            frequency: 1533,
+            ayahArabic: "<span class=\"highlight-word\">إِنَّ</span> اللّٰهَ مَعَ الصَّابِرِينَ",
+            ayahRussian: "Воистину, Аллах — с терпеливыми.",
+            source: "Сура 2 (Аль-Бакара), аят 153"
+          },
+          {
+            arabic: "ءَامَنَ",
+            translations: ["уверовать", "поверил"],
+            details: "Глагол, связанный с верой и внутренней уверенностью.",
+            frequency: 537,
+            ayahArabic: "الَّذِينَ <span class=\"highlight-word\">ءَامَنُوا</span> وَعَمِلُوا الصَّالِحَاتِ",
+            ayahRussian: "Те, которые уверовали и совершали праведные деяния.",
+            source: "Сура 2 (Аль-Бакара), аят 25"
+          },
+          {
+            arabic: "هُوَ",
+            translations: ["он"],
+            details: "Личное местоимение 3-го лица единственного числа.",
+            frequency: 481,
+            ayahArabic: "قُلْ <span class=\"highlight-word\">هُوَ</span> أَللَّهُ أَحَدٌ",
+            ayahRussian: "Скажи: «Он — Аллах Единый...»",
+            source: "Сура 112 (Аль-Ихляс), аят 1"
+          },
+          {
+            arabic: "أَرْضَ",
+            translations: ["земля"],
+            details: "Имя существительное женского рода. Означает земную твердь, почву или саму планету Земля. В кораническом тексте практически всегда упоминается в паре со словом 'небеса' (самават), как часть описания владений Творца.",
+            frequency: 461,
+            ayahArabic: "لَهُۥ مَا فِي أَلسَّمَاوَاتِ وَمَا فِي <span class=\"highlight-word\">أَلْأَرْضِ</span>",
+            ayahRussian: "Ему принадлежит то, что на небесах, и то, что на земле.",
+            source: "Сура 2 (Аль-Бакара), аят 255"
+          },
+          {
+            arabic: "أِذَا",
+            translations: ["когда", "если"],
+            details: "Обстоятельство времени, содержащее в себе значение твердого условия (харф шарт). Указывает на событие в будущем времени, которое обязательно произойдет со стопроцентной вероятностью.",
+            frequency: 442,
+            ayahArabic: "<span class=\"highlight-word\">إِذَا</span> جَاءَ نَصْرُ أَللَّهِ وَأَلْفَتْحُ",
+            ayahRussian: "Когда придет помощь Аллаха и победа...",
+            source: "Сура 110 (Ан-Наср), аят 1"
+          },
+          {
+            arabic: "رَجَعَ",
+            translations: ["возвращаться", "вернулся"],
+            details: "Глагол движения прошедшего времени со всеми харакатами. Означает физическое или духовное возвращение к исходной точке. В Коране напоминает о возвращении душ к Богу на расчет.",
+            frequency: 104,
+            ayahArabic: "إِلَى أَللَّهِ <span class=\"highlight-word\">مَرْجِعُكُمْ</span> جَمِيعًا",
+            ayahRussian: "К Аллаху — ваше возвращение, всех вас.",
+            source: "Сура 5 (Аль-Маида), аят 105"
+          },
+          {
+            arabic: "أَصْحَابَ",
+            translations: ["товарищи", "спутники", "владельцы"],
+            details: "Существительное множественного числа с явной фатхой над начальным алифом (أَ). Указывает на людей, неотрывно связанных с каким-либо местом (обитатели Рая) или постоянным качеством.",
+            frequency: 217,
+            ayahArabic: "أُولَئِكَ <span class=\"highlight-word\">أَصْحَابُ</span> أَلْجَنَّةِ",
+            ayahRussian: "Они — обитатели Рая.",
+            source: "Сура 2 (Аль-Бакара), аят 82"
+          },
+          {
+            arabic: "شَيْءَ",
+            translations: ["вещь", "что-либо", "нечто"],
+            details: "Имя существительное, обозначающее абсолютно любой существующий объект, явление, творение или материю. В Коране часто подчеркивает, что перед мощью и знанием Аллаха ни одна вещь во вселенной не может скрыться.",
+            frequency: 283,
+            ayahArabic: "إِنَّ أَللَّهَ بِكُلِّ <span class=\"highlight-word\">شَيْءٍ</span> عَلِيمٌ",
+            ayahRussian: "Воистину, Аллах знает о всякой вещи.",
+            source: "Сура 2 (Аль-Бакара), аят 282"
+          },
+          {
+            arabic: "جَاءَ",
+            translations: ["прийти", "явиться", "наступить"],
+            details: "Глагол прошедшего времени, корень дж-й-а. Означает физическое прибытие человека, либо абстрактное наступление какого-то события, обещания, истины от Господа или сурового наказания.",
+            frequency: 278,
+            ayahArabic: "إِذَا <span class=\"highlight-word\">جَاءَ</span> نَصْرُ أَللَّهِ وَأَلْفَتْحُ",
+            ayahRussian: "Когда придет помощь Аллаха и победа...",
+            source: "Сура 110 (Ан-Наср), аят 1"
+          },
+          {
+            arabic: "إِلَّا",
+            translations: ["кроме", "только", "исключая"],
+            details: "Исключающая частица (харф истисна). Имеет ключевое значение для формулы Единобожия в исламе, когда сначала идет полное отрицание всех ложных объектов поклонения, а затем исключение в пользу Одного Творца.",
+            frequency: 660,
+            ayahArabic: "لَا إِلَهَ <span class=\"highlight-word\">إِلَّا</span> أَللَّهُ مُحَمَّدٌ رَّسُولُ أَللَّهِ",
+            ayahRussian: "Нет божества, кроме Аллаха, Мухаммад — Посланник Аллаха.",
+            source: "Формула Шахады (основано на Суре 47, аят 19 и Суре 48, аят 29)"
+          },
+          {
+            arabic: "رَأَىٰ",
+            translations: ["видеть", "зреть", "считать"],
+            details: "Глагол прошедшего времени, мужского рода. Может означать как зрительное восприятие глазами, так и глубокое внутреннее убеждение, осознание умом или духовное видение истины сердцем.",
+            frequency: 271,
+            ayahArabic: "أَلَمْ <span class=\"highlight-word\">تَرَ</span> كَيْفَ فَعَلَ رَبُّكَ بِأَصْحَابِ الْفِيلِ",
+            ayahRussian: "Разве ты не видел, как твой Господь поступил с владельцами слона?",
+            source: "Сура 105 (Аль-Филь), аят 1"
+          },
+          {
+            arabic: "أَلْمُؤْمِنُونَ",
+            translations: ["верующие"],
+            details: "Имя существительное (исм фа'иль) с четкой даммой на первой букве и сукуном на хамзе. Означает человека, обретшего глубокую осознанную веру (иман) и находящегося в состоянии духовной безопасности.",
+            frequency: 220,
+            ayahArabic: "قَدْ أَفْلَحَ <span class=\"highlight-word\">أَلْمُؤْمِنُونَ</span>",
+            ayahRussian: "Воистину, преуспели верующие.",
+            source: "Сура 23 (Аль-Муминун), аят 1"
+          },
+          {
+            arabic: "خَلَقَ",
+            translations: ["создать", "сотворить"],
+            details: "Глагол прошедшего времени, корень х-л-к со всеми фатхами. Буквально означает сотворение уникальной вещи из ничего, без предвечного образца. Это действие в Коране принадлежит исключительно Аллаху.",
+            frequency: 215,
+            ayahArabic: "أِقْرَأْ بِأِسْمِ رَبِّكَ أَلَّذِي <span class=\"highlight-word\">خَلَقَ</span>",
+            ayahRussian: "Читай во имя твоего Господа, Который сотворил все сущее.",
+            source: "Сура 96 (Аль-Аляк), аят 1"
+          },
+          {
+            arabic: "تَوَلَّىٰ",
+            translations: ["отвернуться", "удалиться", "взять на себя"],
+            details: "Многозначный глагол прошедшего времени (V порода). В негативном контексте Корана означает высокомерное отворачивание человека от истины, пророков и призыва к Единобожию.",
+            frequency: 104,
+            ayahArabic: "فَإِن <span class=\"highlight-word\">تَوَلَّوْا</span> فَإِنَّ أَللَّهَ عَلِيمٌ بِأَلْمُفْسِدِينَ",
+            ayahRussian: "Если же они отвернутся, то ведь Аллах знает наводящих порчу.",
+            source: "Сура 3 (Аль-Имран), аят 63"
+          },
+          {
+            arabic: "سَمِعَ",
+            translations: ["слышать", "услышать", "внимать"],
+            details: "Глагол прошедшего времени, корень с-м-а с касрой под средней буквой. Означает физический слух или духовное принятие истины. Одно из базовых качеств Всевышнего, Который всегда слышит дуа Своих рабов.",
+            frequency: 102,
+            ayahArabic: "إِنَّنِي مَعَكُمَا <span class=\"highlight-word\">أَسْمَعُ</span> وَأَرَىٰ",
+            ayahRussian: "Воистину, Я — с вами. Я всё слышу и вижу.",
+            source: "Сура 20 (Та Ха), аят 46"
+          }
+        ]
+      }
+    ];
+
+    const screens = document.querySelectorAll('.screen');
+    const navButtons = document.querySelectorAll('[data-target]');
+    const modeButtons = document.querySelectorAll('#mode-switcher .chip');
+    const timerButtons = document.querySelectorAll('#timer-switcher .chip');
+    const nextQuestionButton = document.getElementById('next-question-btn');
+    const progressFill = document.getElementById('progress-fill');
+    const testTitle = document.getElementById('test-title');
+    const questionCounter = document.getElementById('question-counter');
+    const questionWord = document.getElementById('question-word');
+    const answerButtons = Array.from(document.querySelectorAll('.answer-btn'));
+    const correctCountEl = document.getElementById('correct-count');
+    const wrongCountEl = document.getElementById('wrong-count');
+    const resultsSummaryEl = document.getElementById('results-summary');
+    const mistakeListEl = document.getElementById('mistake-list');
+    const learningListEl = document.getElementById('learning-list');
+    const resultsRingEl = document.getElementById('results-ring');
+    const resultsPercentEl = document.getElementById('results-percent');
+    const resultsTotalTimeEl = document.getElementById('results-total-time');
+    const resultsAverageTimeEl = document.getElementById('results-average-time');
+    const resultsCorrectCountEl = document.getElementById('results-correct-count');
+    const resultsWrongCountEl = document.getElementById('results-wrong-count');
+
+    let testMode = 'ar-ru';
+    let timerSeconds = null;
+    let currentLessonId = lessonsDataset[0] ? lessonsDataset[0].id : 1;
+    let currentPart = 1;
+    let testQuestions = [];
+    let currentQuestionIndex = 0;
+    let correctCount = 0;
+    let wrongCount = 0;
+    let wrongAnswers = [];
+    let activeTimer = null;
+    let answered = false;
+    let testStartedAt = null;
+    let questionStartedAt = null;
+
+    function showScreen(id) {
+      screens.forEach(screen => screen.classList.toggle('active', screen.id === id));
+      if (id === 'learning-screen') {
+        renderLearningCards();
+      }
+    }
+
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function setMode(mode) {
+      testMode = mode;
+      modeButtons.forEach(button => {
+        button.classList.toggle('active', button.dataset.mode === mode);
+      });
+      testTitle.textContent = mode === 'ar-ru' ? 'Арабский → Русский' : 'Русский → Арабский';
+    }
+
+    function setTimer(seconds) {
+      timerSeconds = seconds;
+      timerButtons.forEach(button => {
+        button.classList.toggle('active', Number(button.dataset.time) === seconds);
+      });
+    }
+
+    function getLessonById(id) {
+      return lessonsDataset.find(lesson => lesson.id === id) || lessonsDataset[0];
+    }
+
+    function getActiveLesson() {
+      return getLessonById(currentLessonId);
+    }
+
+    function getWordsForPart(part) {
+      return wordsDataset
+        .filter(word => Number(word.part || 1) === part)
+        .map(word => ({ ...word }));
+    }
+
+    function getActiveWordPool() {
+      return getWordsForPart(currentPart);
+    }
+
+    function renderLearningCards() {
+      learningListEl.innerHTML = '';
+      const lessonWords = getActiveWordPool();
+
+      lessonWords.forEach(word => {
+        const card = document.createElement('details');
+        card.className = 'accordion-item';
+        card.innerHTML = `
+          <summary>
+            <span class="word-arabic arabic-text">${word.arabic}</span>
+            <span>${word.translations.join(', ')}</span>
+          </summary>
+          <div class="content">
+            <p>${word.details}</p>
+            <p><strong>Частота:</strong> ${word.frequency}</p>
+            <p><strong>Аят:</strong> <span class="ayah-text">${word.ayahArabic}</span></p>
+            <p><strong>Перевод аята:</strong> ${word.ayahRussian}</p>
+            <p><strong>Источник:</strong> ${word.source}</p>
+          </div>
+        `;
+        learningListEl.appendChild(card);
+      });
+    }
+
+    function buildQuestionData(word) {
+      const promptWord = testMode === 'ar-ru'
+        ? word.arabic
+        : word.translations.join(', ');
+
+      const options = [];
+      const pool = getActiveWordPool();
+      const otherWords = pool.filter(otherWord => otherWord.arabic !== word.arabic);
+
+      if (testMode === 'ar-ru') {
+        const correctValue = word.translations.join(', ');
+        options.push(correctValue);
+        const wrongPool = otherWords.map(otherWord => otherWord.translations.join(', '));
+
+        while (options.length < 4) {
+          const candidate = wrongPool[Math.floor(Math.random() * wrongPool.length)];
+          if (candidate && !options.includes(candidate)) {
+            options.push(candidate);
+          }
+        }
+
+        return {
+          word,
+          prompt: promptWord,
+          correctAnswer: correctValue,
+          options: shuffleArray(options)
+        };
+      }
+
+      const correctValue = word.arabic;
+      options.push(correctValue);
+      const wrongPool = otherWords.map(otherWord => otherWord.arabic);
+
+      while (options.length < 4) {
+        const candidate = wrongPool[Math.floor(Math.random() * wrongPool.length)];
+        if (candidate && !options.includes(candidate)) {
+          options.push(candidate);
+        }
+      }
+
+      return {
+        word,
+        prompt: promptWord,
+        correctAnswer: correctValue,
+        options: shuffleArray(options)
+      };
+    }
+
+    function updateScore() {
+      correctCountEl.textContent = correctCount;
+      wrongCountEl.textContent = wrongCount;
+    }
+
+    function formatTime(totalSeconds) {
+      const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+      const seconds = Math.floor(totalSeconds % 60).toString().padStart(2, '0');
+      return `${minutes}:${seconds}`;
+    }
+
+    function updateResultsStats() {
+      const totalQuestions = testQuestions.length || 0;
+      const accuracy = totalQuestions ? Math.round((correctCount / totalQuestions) * 100) : 0;
+      const totalSeconds = testStartedAt ? (Date.now() - testStartedAt) / 1000 : 0;
+      const averageSeconds = totalQuestions ? totalSeconds / totalQuestions : 0;
+
+      resultsSummaryEl.textContent = `Вы ответили правильно на ${correctCount} из ${totalQuestions} вопросов`;
+      resultsPercentEl.textContent = `${accuracy}%`;
+      if (resultsRingEl) {
+        resultsRingEl.style.setProperty('--correct-percent', `${accuracy}%`);
+      }
+      resultsTotalTimeEl.textContent = formatTime(totalSeconds);
+      resultsAverageTimeEl.textContent = `${averageSeconds.toFixed(1)} сек`;
+      resultsCorrectCountEl.textContent = correctCount;
+      resultsWrongCountEl.textContent = wrongCount;
+    }
+
+    function clearAnswerButtons() {
+      answerButtons.forEach(button => {
+        button.disabled = false;
+        button.classList.remove('correct', 'wrong');
+        button.style.opacity = '1';
+      });
+    }
+
+    function startTimer(seconds) {
+      clearInterval(activeTimer);
+      progressFill.style.width = '100%';
+      const startedAt = Date.now();
+
+      activeTimer = setInterval(() => {
+        const elapsed = (Date.now() - startedAt) / 1000;
+        const remaining = Math.max(0, seconds - elapsed);
+        const percent = seconds > 0 ? (remaining / seconds) * 100 : 100;
+        progressFill.style.width = `${percent}%`;
+
+        if (remaining <= 0) {
+          clearInterval(activeTimer);
+          handleAnswer(null, true);
+        }
+      }, 100);
+    }
+
+    function loadCurrentQuestion() {
+      if (currentQuestionIndex >= testQuestions.length) {
+        finishTest();
+        return;
+      }
+
+      const currentQuestion = testQuestions[currentQuestionIndex];
+      questionWord.innerHTML = currentQuestion.prompt;
+      questionCounter.textContent = `Вопрос ${currentQuestionIndex + 1} из ${testQuestions.length}`;
+      testTitle.textContent = testMode === 'ar-ru' ? 'Арабский → Русский' : 'Русский → Арабский';
+      nextQuestionButton.classList.add('hidden');
+      clearAnswerButtons();
+      answered = false;
+      questionStartedAt = Date.now();
+
+      const detailsBlock = document.getElementById('test-word-details');
+      if (detailsBlock) {
+        detailsBlock.innerHTML = '';
+        detailsBlock.style.display = 'none';
+      }
+
+      answerButtons.forEach((button, index) => {
+        button.textContent = currentQuestion.options[index];
+      });
+
+      if (timerSeconds !== null) {
+        startTimer(timerSeconds);
+      } else {
+        clearInterval(activeTimer);
+        progressFill.style.width = '100%';
+      }
+    }
+
+    function checkAnswer(selectedValue, timedOut = false) {
+      if (answered) {
+        return;
+      }
+
+      answered = true;
+      clearInterval(activeTimer);
+      const currentQuestion = testQuestions[currentQuestionIndex];
+      const elapsedSeconds = questionStartedAt ? (Date.now() - questionStartedAt) / 1000 : 0;
+      const isCorrect = selectedValue === currentQuestion.correctAnswer;
+
+      if (isCorrect) {
+        correctCount += 1;
+      } else {
+        wrongCount += 1;
+        const alreadyAdded = wrongAnswers.some(item => item.word.arabic === currentQuestion.word.arabic);
+        if (!alreadyAdded) {
+          wrongAnswers.push({
+            word: currentQuestion.word,
+            elapsedSeconds,
+            selectedValue,
+            timedOut
+          });
+        }
+      }
+
+      updateScore();
+
+      answerButtons.forEach(button => {
+        button.disabled = true;
+        const value = button.textContent.trim();
+
+        if (value === currentQuestion.correctAnswer) {
+          button.classList.add('correct');
+        } else if (selectedValue !== null && value === selectedValue) {
+          button.classList.add('wrong');
+        }
+      });
+
+      const detailsBlock = document.getElementById('test-word-details');
+      if (detailsBlock && currentQuestion && currentQuestion.word) {
+        const word = currentQuestion.word;
+        detailsBlock.innerHTML = `
+          <div style="font-size: 0.95rem; color: var(--muted); margin-bottom: 8px;">Встречается в Коране: ${word.frequency} раз</div>
+          <div style="margin-bottom: 10px; line-height: 1.6;">${word.details}</div>
+          <div style="font-size: 1.08rem; font-family: 'Amiri', 'Noto Naskh Arabic', 'Scheherazade New', serif; margin-bottom: 8px;" class="ayah-text">${word.ayahArabic}</div>
+          <div style="margin-bottom: 6px;">${word.ayahRussian}</div>
+          <div style="font-size: 0.9rem; color: var(--muted);">Источник: ${word.source}</div>
+        `;
+        detailsBlock.style.display = 'block';
+      }
+
+      nextQuestionButton.classList.remove('hidden');
+    }
+
+    function handleAnswer(selectedValue, timedOut = false) {
+      checkAnswer(selectedValue, timedOut);
+    }
+
+    function finishTest() {
+      clearInterval(activeTimer);
+      progressFill.style.width = '100%';
+      updateResultsStats();
+      renderMistakeCards();
+      showScreen('results-screen');
+    }
+
+    function renderMistakeCards() {
+      mistakeListEl.innerHTML = '';
+
+      if (wrongAnswers.length === 0) {
+        mistakeListEl.innerHTML = '<p>Пока нет ошибок. Вы справились отлично.</p>';
+        return;
+      }
+
+      wrongAnswers.forEach(entry => {
+        const word = entry.word;
+        const item = document.createElement('details');
+        item.className = 'mistake-item';
+        item.innerHTML = `
+          <summary>
+            <span class="word-arabic arabic-text">${word.arabic}</span>
+            <span>${word.translations[0]}</span>
+          </summary>
+          <div class="content">
+            <p>${word.details}</p>
+            <p><strong>Частота:</strong> ${word.frequency}</p>
+            <p><strong>Аят:</strong> <span class="ayah-text">${word.ayahArabic}</span></p>
+            <p><strong>Перевод аята:</strong> ${word.ayahRussian}</p>
+            <p><strong>Источник:</strong> ${word.source}</p>
+            <p class="mistake-note">Вы потратили на этот вопрос ${entry.elapsedSeconds.toFixed(1)} сек и ответили неверно.</p>
+          </div>
+        `;
+        mistakeListEl.appendChild(item);
+      });
+    }
+
+    function startTest() {
+      currentQuestionIndex = 0;
+      correctCount = 0;
+      wrongCount = 0;
+      wrongAnswers = [];
+      testStartedAt = Date.now();
+      updateScore();
+
+      const lessonWords = getActiveWordPool();
+      if (lessonWords.length === 0) {
+        return;
+      }
+
+      const questionPool = [...lessonWords];
+      while (questionPool.length < 20) {
+        questionPool.push(...lessonWords);
+      }
+
+      testQuestions = shuffleArray(questionPool.slice(0, 20)).map(word => buildQuestionData(word));
+      showScreen('test-screen');
+      loadCurrentQuestion();
+    }
+
+    navButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const target = button.getAttribute('data-target');
+
+        if (button.dataset.action === 'open-learning') {
+          currentPart = Number(button.dataset.part || 1);
+          showScreen('learning-screen');
+          return;
+        }
+
+        if (button.dataset.action === 'open-test') {
+          if (button.dataset.part) {
+            currentPart = Number(button.dataset.part || 1);
+          }
+          showScreen('setup-screen');
+          return;
+        }
+
+        if (button.dataset.action === 'start-test') {
+          startTest();
+          return;
+        }
+
+        if (target) {
+          showScreen(target);
+        }
+      });
+    });
+
+    modeButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        setMode(button.dataset.mode);
+      });
+    });
+
+    timerButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const seconds = button.dataset.time === '0' ? null : Number(button.dataset.time);
+        setTimer(seconds);
+      });
+    });
+
+    answerButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        handleAnswer(button.textContent.trim());
+      });
+    });
+
+    nextQuestionButton.addEventListener('click', () => {
+      currentQuestionIndex += 1;
+      loadCurrentQuestion();
+    });
+
+    setMode('ar-ru');
+    setTimer(null);
+    renderLearningCards();
+    renderMistakeCards();
+    updateScore();
+    updateResultsStats();
+    nextQuestionButton.classList.add('hidden');
+    progressFill.style.width = '100%';
+  </script>
+</body>
+</html>
