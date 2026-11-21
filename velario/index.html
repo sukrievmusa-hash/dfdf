@@ -58,6 +58,12 @@ tailwind.config = {
   .fade-step { animation:fs .5s ease both; }
   @keyframes fs { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
   @media (prefers-reduced-motion: reduce) { .kenburns, .reveal, .fade-step { animation:none; transition:none; opacity:1; transform:none; } }
+  .nav-link.on { color:#C5A059; } .nav-link.on::after { width:100%; }
+  .chip { border:1px solid rgba(30,30,30,.2); transition:all .25s; } .chip:hover { border-color:#C5A059; } .chip.sel { background:#1E1E1E; color:#F7F5F0; border-color:#1E1E1E; }
+  .heart { transition:transform .25s; } .heart:hover { transform:scale(1.15); } .heart.on svg { fill:#C5A059; stroke:#C5A059; }
+  .field.bad { border-color:#fca5a5; } body.lock { overflow:hidden; }
+  input[type=search]::-webkit-search-cancel-button { filter:grayscale(1); }
+  select option { background:#1A1A1A; color:#F5F5F5; }
 </style>
 </head>
 <body>
@@ -75,19 +81,22 @@ tailwind.config = {
       <a href="#catalog" class="nav-link">Каталог</a>
       <a href="#about" class="nav-link">О салоне</a>
       <a href="#advantages" class="nav-link">Преимущества</a>
+      <a href="#request" class="nav-link">Заявка</a>
       <a href="#contacts" class="nav-link">Контакты</a>
     </nav>
     <div class="hidden lg:flex items-center gap-6">
+      <button type="button" data-open-fav class="relative w-11 h-11 flex items-center justify-center hover:text-gold transition" aria-label="Моя подборка"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.3" viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.6 4.6 0 018-3 4.6 4.6 0 018 3c0 5.8-8 11-8 11z"/></svg><span data-fav-count class="hidden absolute top-0.5 right-0 min-w-[18px] h-[18px] px-1 rounded-full bg-gold text-graphite text-[10px] font-semibold items-center justify-center">0</span></button>
       <a href="tel:+77762220033" class="text-sm tracking-wider hover:text-gold transition">+7 776 222 00 33</a>
       <a data-wa="Здравствуйте! Пишу с сайта Velario, хочу проконсультироваться по мебели" target="_blank" rel="noopener" class="btn-gold px-6 py-3 text-[.72rem] uppercase tracking-[.18em] font-medium">Написать в WhatsApp</a>
     </div>
-    <button id="burger" class="lg:hidden w-11 h-11 flex flex-col items-center justify-center gap-[6px]" aria-label="Меню">
+    <div class="lg:hidden flex items-center gap-1"><button type="button" data-open-fav class="relative w-11 h-11 flex items-center justify-center hover:text-gold transition" aria-label="Моя подборка"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.3" viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.6 4.6 0 018-3 4.6 4.6 0 018 3c0 5.8-8 11-8 11z"/></svg><span data-fav-count class="hidden absolute top-0.5 right-0 min-w-[18px] h-[18px] px-1 rounded-full bg-gold text-graphite text-[10px] font-semibold items-center justify-center">0</span></button>
+    <button id="burger" class="w-11 h-11 flex flex-col items-center justify-center gap-[6px]" aria-label="Меню" aria-expanded="false">
       <span class="w-6 h-px bg-milk transition"></span><span class="w-6 h-px bg-milk transition"></span><span class="w-6 h-px bg-milk transition"></span>
-    </button>
+    </button></div>
   </div>
   <div id="mobmenu" class="hidden lg:hidden bg-graphite/95 backdrop-blur border-t border-gold/20">
     <div class="px-5 py-6 flex flex-col gap-5 text-sm uppercase tracking-[.2em]">
-      <a href="#catalog">Каталог</a><a href="#about">О салоне</a><a href="#advantages">Преимущества</a><a href="#contacts">Контакты</a>
+      <a href="#catalog">Каталог</a><a href="#about">О салоне</a><a href="#advantages">Преимущества</a><a href="#request">Заявка</a><a href="#contacts">Контакты</a>
       <a href="tel:+77762220033" class="text-gold tracking-wider normal-case text-base">+7 776 222 00 33</a>
       <a data-wa="Здравствуйте! Пишу с сайта Velario, хочу проконсультироваться по мебели" target="_blank" rel="noopener" class="btn-gold px-6 py-4 text-center text-xs tracking-[.18em]">Написать в WhatsApp</a>
     </div>
@@ -118,6 +127,8 @@ tailwind.config = {
       <div class="mt-14 flex flex-wrap items-center gap-x-8 gap-y-3 text-xs tracking-[.15em] uppercase text-milk/60 reveal">
         <span class="flex items-center gap-2"><span class="text-gold text-base">★</span> 5.0 в 2ГИС</span>
         <span class="hidden sm:inline w-px h-4 bg-gold/40"></span>
+        <span class="flex items-center gap-2"><span data-dot class="w-2 h-2 rounded-full bg-gold"></span><span data-status>—</span></span>
+        <span class="hidden sm:inline w-px h-4 bg-gold/40"></span>
         <span>Розница и опт</span>
         <span class="hidden sm:inline w-px h-4 bg-gold/40"></span>
         <span>Доставка по РК</span>
@@ -147,7 +158,17 @@ tailwind.config = {
       <button class="tab px-6 py-3 text-[.72rem] uppercase tracking-[.18em]" data-cat="kids">Детские</button>
     </div>
 
-    <div id="grid" class="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-7"></div>
+    
+    <div class="mt-8 max-w-2xl mx-auto flex flex-col sm:flex-row gap-3 reveal">
+      <div class="relative flex-1">
+        <svg class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-ink/40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        <input id="search" type="search" placeholder="Найти: диван, кровать, кухня…" aria-label="Поиск по каталогу" class="w-full bg-white border border-ink/15 focus:border-gold outline-none pl-11 pr-4 py-3 text-sm placeholder:text-ink/35 transition">
+      </div>
+      <button id="onlyFav" type="button" aria-pressed="false" class="tab px-5 py-3 text-[.7rem] uppercase tracking-[.16em] flex items-center justify-center gap-2 bg-white">♥ Избранное <span data-fav-count2 class="text-gold">0</span></button>
+    </div>
+    <p id="resultNote" class="text-center text-xs text-ink/45 mt-4 tracking-wide" aria-live="polite"></p>
+
+    <div id="grid" class="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-7"></div>
   </div>
 </section>
 
@@ -232,6 +253,46 @@ tailwind.config = {
   </div>
 </section>
 
+
+<!-- REQUEST FORM -->
+<section id="request" class="relative bg-coal py-24 lg:py-32 border-t border-gold/15">
+  <div class="max-w-6xl mx-auto px-5 lg:px-8 grid lg:grid-cols-5 gap-12 lg:gap-16 items-start">
+    <div class="lg:col-span-2 reveal">
+      <p class="eyebrow">Заявка</p>
+      <h2 class="font-serif text-4xl sm:text-5xl mt-4 leading-tight font-medium">Бесплатная консультация</h2>
+      <div class="gold-line w-24 my-7" style="background:#C5A059"></div>
+      <p class="text-milk/65 font-light leading-relaxed">Оставьте имя и телефон — менеджер VELARIO подберёт модели, ответит по наличию и условиям доставки. Для дизайнеров и застройщиков — отдельные условия опта.</p>
+      <ul class="mt-8 space-y-3 text-sm text-milk/70 font-light">
+        <li class="flex gap-3"><span class="text-gold">✦</span> Ответим в WhatsApp в рабочее время 10:00–19:00</li>
+        <li class="flex gap-3"><span class="text-gold">✦</span> Подборка из вашего «Избранного» добавится в заявку</li>
+        <li class="flex gap-3"><span class="text-gold">✦</span> Данные никуда не сохраняются, кроме вашего браузера</li>
+      </ul>
+    </div>
+    <form id="leadForm" class="lg:col-span-3 border border-gold/40 bg-graphite p-7 sm:p-10 reveal" novalidate>
+      <div class="grid sm:grid-cols-2 gap-5">
+        <label class="block"><span class="text-[.66rem] uppercase tracking-[.2em] text-gold">Имя *</span>
+          <input name="name" autocomplete="name" class="field mt-2 w-full bg-transparent border border-gold/30 focus:border-gold outline-none px-4 py-3 text-sm transition" placeholder="Как к вам обращаться">
+          <span class="err text-xs text-red-300/90 mt-1 block h-4"></span></label>
+        <label class="block"><span class="text-[.66rem] uppercase tracking-[.2em] text-gold">Телефон *</span>
+          <input name="phone" type="tel" inputmode="tel" autocomplete="tel" class="field mt-2 w-full bg-transparent border border-gold/30 focus:border-gold outline-none px-4 py-3 text-sm transition" placeholder="+7 (___) ___-__-__">
+          <span class="err text-xs text-red-300/90 mt-1 block h-4"></span></label>
+      </div>
+      <label class="block mt-1"><span class="text-[.66rem] uppercase tracking-[.2em] text-gold">Что интересует</span>
+        <select name="topic" class="mt-2 w-full bg-graphite border border-gold/30 focus:border-gold outline-none px-4 py-3 text-sm transition">
+          <option>Спальня</option><option>Гостиная</option><option>Кухня и обеденная зона</option><option>Детская</option><option>Весь дом</option><option>Опт / для дизайнера или застройщика</option><option>Другое</option>
+        </select></label>
+      <label class="block mt-5"><span class="text-[.66rem] uppercase tracking-[.2em] text-gold">Комментарий</span>
+        <textarea name="comment" rows="3" class="mt-2 w-full bg-transparent border border-gold/30 focus:border-gold outline-none px-4 py-3 text-sm transition resize-none" placeholder="Размеры комнаты, стиль, сроки — по желанию"></textarea></label>
+      <label class="flex items-start gap-3 mt-5 text-xs text-milk/55 font-light leading-relaxed cursor-pointer">
+        <input type="checkbox" name="consent" class="mt-0.5 accent-[#C5A059]"> <span>Согласен(на) на обработку контактных данных для связи по заявке *</span></label>
+      <span class="err text-xs text-red-300/90 mt-1 block h-4" data-for="consent"></span>
+      <div id="leadFavNote" class="hidden mt-3 text-xs text-gold border border-gold/30 px-4 py-3"></div>
+      <button type="submit" class="btn-gold w-full mt-6 px-8 py-4 text-[.74rem] uppercase tracking-[.2em] font-medium">Отправить заявку в WhatsApp</button>
+      <p class="text-[.68rem] text-milk/40 mt-4 text-center">Откроется WhatsApp с готовым сообщением — останется нажать «Отправить».</p>
+    </form>
+  </div>
+</section>
+
 <!-- CONTACTS -->
 <section id="contacts" class="bg-cream text-ink py-24 lg:py-32">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
@@ -247,11 +308,13 @@ tailwind.config = {
             <div class="eyebrow mb-2">Адрес</div>
             <p class="font-serif text-2xl leading-snug">г. Астана, район Сарайшык, ул. Касыма Аманжолова, 22</p>
             <p class="text-sm text-milk/60 mt-1 font-light">ЖК HAYAT, рядом с Национальным музеем РК</p>
+            <button type="button" id="copyAddr" class="mt-3 text-[.68rem] uppercase tracking-[.2em] text-gold border-b border-gold/40 hover:border-gold transition">Скопировать адрес</button>
           </div>
           <div class="gold-line"></div>
           <div>
             <div class="eyebrow mb-2">Режим работы</div>
             <p class="font-serif text-2xl">Ежедневно 10:00–19:00</p>
+            <p class="text-sm text-gold mt-1 flex items-center gap-2"><span data-dot class="w-2 h-2 rounded-full bg-gold"></span><span data-status>—</span></p>
           </div>
           <div class="gold-line"></div>
           <div>
@@ -324,6 +387,38 @@ tailwind.config = {
   </div>
 </footer>
 
+
+<!-- Product modal -->
+<div id="modal" class="fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true" aria-label="Карточка товара">
+  <div data-close class="absolute inset-0 bg-black/75 backdrop-blur-sm"></div>
+  <div class="absolute inset-x-0 bottom-0 sm:inset-0 sm:flex sm:items-center sm:justify-center sm:p-6 pointer-events-none">
+    <div id="modalBox" class="pointer-events-auto bg-cream text-ink w-full sm:max-w-4xl max-h-[92vh] overflow-y-auto grid sm:grid-cols-2 relative fade-step"></div>
+  </div>
+</div>
+
+<!-- Favorites drawer -->
+<div id="drawer" class="fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true" aria-label="Моя подборка">
+  <div data-close class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+  <aside class="absolute right-0 top-0 h-full w-full max-w-md bg-graphite border-l border-gold/40 flex flex-col">
+    <div class="flex items-center justify-between px-6 h-20 border-b border-gold/20">
+      <h3 class="font-serif text-2xl">Моя подборка</h3>
+      <button data-close class="w-10 h-10 text-2xl text-milk/70 hover:text-gold" aria-label="Закрыть">×</button>
+    </div>
+    <div id="drawerList" class="flex-1 overflow-y-auto px-6 py-5 space-y-4"></div>
+    <div class="p-6 border-t border-gold/20 space-y-3">
+      <input id="drawerName" placeholder="Ваше имя (по желанию)" class="w-full bg-transparent border border-gold/30 focus:border-gold outline-none px-4 py-3 text-sm">
+      <button id="drawerSend" class="btn-gold w-full px-6 py-4 text-[.72rem] uppercase tracking-[.2em] font-medium">Отправить подборку в WhatsApp</button>
+      <div class="flex justify-between text-[.68rem] uppercase tracking-[.18em] text-milk/50">
+        <button id="drawerClear" class="hover:text-gold transition">Очистить</button>
+        <a href="#request" data-close class="hover:text-gold transition">Оставить заявку →</a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<div id="toast" class="fixed left-1/2 -translate-x-1/2 bottom-24 z-[70] hidden bg-graphite border border-gold px-6 py-3 text-sm text-milk shadow-2xl max-w-[90vw] text-center"></div>
+<button id="toTop" aria-label="Наверх" class="fixed bottom-5 left-5 z-40 w-12 h-12 border border-gold/60 bg-graphite/90 text-gold hidden items-center justify-center hover:bg-wine transition">↑</button>
+
 <!-- Floating WhatsApp -->
 <a data-wa="Здравствуйте! Пишу с сайта Velario, хочу проконсультироваться по мебели" target="_blank" rel="noopener" aria-label="WhatsApp" class="fixed bottom-5 right-5 z-40 w-14 h-14 rounded-full bg-wine border border-gold flex items-center justify-center shadow-2xl hover:scale-110 transition">
   <svg class="w-7 h-7 text-gold" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm5.2 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.2-.7-2.7-1.1-4.4-3.8-4.5-4-.1-.2-1.1-1.4-1.1-2.7s.7-1.9.9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.3.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2 1.1 1 2.1 1.300 2.400 1.500.3.1.5.1.6-.1l.9-1.100c.2-.2.4-.2.6-.1l1.900.9c.3.1.5.2.6.3.1.1.1.6-.1 1.200z"/></svg>
@@ -333,58 +428,239 @@ tailwind.config = {
 (function(){
   const PHONE = '77762220033';
   const WA = t => `https://wa.me/${PHONE}?text=${encodeURIComponent(t)}`;
+  const $ = (s, r) => (r||document).querySelector(s);
+  const $$ = (s, r) => Array.from((r||document).querySelectorAll(s));
+  const store = {
+    get(k, d){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
+    set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+  };
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const plain = s => s.replace(/[«»]/g,'');
+  const HELLO = 'Здравствуйте! Пишу с сайта Velario, хочу проконсультироваться по мебели';
 
-  // WhatsApp links with prefilled text
-  const bindWA = root => (root||document).querySelectorAll('[data-wa]').forEach(a => a.href = WA(a.dataset.wa));
+  const bindWA = root => $$('[data-wa]', root).forEach(a => a.href = WA(a.dataset.wa));
   bindWA();
 
-  // Catalog data (placeholder photos: Unsplash)
+  function toast(msg){
+    const t = $('#toast'); t.textContent = msg; t.classList.remove('hidden');
+    clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.add('hidden'), 3200);
+  }
+  function openWA(text){
+    const url = WA(text);
+    const w = window.open(url, '_blank', 'noopener');
+    if(!w) location.href = url;
+  }
+
+  /* ---------- Catalog data ---------- */
   const U = id => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=900&q=75`;
   const products = [
-    {cat:'living', name:'Диван «Aurelia»', style:'Современная классика', mat:'Букле, массив бука, пенополиуретан высокой плотности', img:U('photo-1555041469-a586c61ea9bc')},
-    {cat:'living', name:'Кресло «Seraphine»', style:'Art Deco', mat:'Бархат, латунные акценты', img:U('photo-1540518614846-7eded433c457')},
-    {cat:'living', name:'Витрина «Lumière»', style:'Неоклассика', mat:'Шпон ореха, закалённое стекло, LED-подсветка', img:U('photo-1513694203232-719a280e022f')},
-    {cat:'bedroom', name:'Кровать «Marquise»', style:'Мягкое изголовье', mat:'Велюр, каретная стяжка, ортопедическое основание', img:U('photo-1505693416388-ac5ce068fe85')},
-    {cat:'bedroom', name:'Туалетный столик «Versailles»', style:'Французская классика', mat:'МДФ в эмали, зеркало, золотистая фурнитура', img:U('photo-1522771739844-6a9f6d5f14af')},
-    {cat:'kitchen', name:'Кухонный гарнитур «Milano»', style:'Современный минимализм', mat:'Матовые фасады, кварцевая столешница, доводчики', img:U('photo-1556228453-efd6c1ff04f6')},
-    {cat:'kitchen', name:'Обеденная группа «Verona»', style:'Скандинавская классика', mat:'Массив дуба, стулья с мягкой обивкой', img:U('photo-1617806118233-18e1de247200')},
-    {cat:'kids', name:'Детская «Little Noble»', style:'Для детей и подростков', mat:'Экологичные материалы, закруглённые углы', img:U('photo-1560448204-e02f11c3d0e2')}
+    {id:'aurelia', cat:'living', name:'Диван «Aurelia»', style:'Современная классика', mat:'Букле, массив бука, пенополиуретан высокой плотности', img:U('photo-1555041469-a586c61ea9bc'),
+      desc:'Модульный диван с мягкими обтекаемыми формами. Глубокая посадка, съёмные подушки, каркас из массива бука.', size:'Ширина 240–320 см, глубина 105 см',
+      opts:[{k:'Обивка', v:['Букле молочное','Велюр графит','Велюр марсала']},{k:'Конфигурация', v:['Прямой 3-местный','Угловой','Модульный']}]},
+    {id:'seraphine', cat:'living', name:'Кресло «Seraphine»', style:'Art Deco', mat:'Бархат, латунные акценты', img:U('photo-1540518614846-7eded433c457'),
+      desc:'Дизайнерское кресло с изогнутой спинкой и тонкими латунными ножками. Акцент для гостиной или кабинета.', size:'Ширина 78 см, глубина 80 см, высота 82 см',
+      opts:[{k:'Обивка', v:['Бархат бордо','Бархат шампань','Бархат графит']}]},
+    {id:'lumiere', cat:'living', name:'Витрина «Lumière»', style:'Неоклассика', mat:'Шпон ореха, закалённое стекло, LED-подсветка', img:U('photo-1513694203232-719a280e022f'),
+      desc:'Витрина со стеклянными полками и тёплой подсветкой. Подчёркивает коллекции, посуду и декор.', size:'Ширина 120 см, глубина 40 см, высота 200 см',
+      opts:[{k:'Отделка', v:['Орех','Дуб беленый','Графит']}]},
+    {id:'marquise', cat:'bedroom', name:'Кровать «Marquise»', style:'Мягкое изголовье', mat:'Велюр, каретная стяжка, ортопедическое основание', img:U('photo-1505693416388-ac5ce068fe85'),
+      desc:'Кровать с высоким мягким изголовьем в каретной стяжке и ортопедическим основанием. Возможно подъёмное основание.', size:'Под матрас 160×200 или 180×200 см',
+      opts:[{k:'Размер', v:['160×200','180×200','200×200']},{k:'Обивка', v:['Велюр бежевый','Велюр марсала','Велюр графит']}]},
+    {id:'versailles', cat:'bedroom', name:'Туалетный столик «Versailles»', style:'Французская классика', mat:'МДФ в эмали, зеркало, золотистая фурнитура', img:U('photo-1522771739844-6a9f6d5f14af'),
+      desc:'Столик с вместительными ящиками, зеркалом и золотистой фурнитурой. Хорошо сочетается с кроватью и тумбами из серии.', size:'Ширина 110 см, глубина 45 см',
+      opts:[{k:'Цвет', v:['Молочный','Графит','Капучино']}]},
+    {id:'milano', cat:'kitchen', name:'Кухонный гарнитур «Milano»', style:'Современный минимализм', mat:'Матовые фасады, кварцевая столешница, доводчики', img:U('photo-1556228453-efd6c1ff04f6'),
+      desc:'Кухня по индивидуальным размерам: матовые фасады, скрытая фурнитура, плавное закрывание, встроенная подсветка.', size:'Под размеры вашей кухни, замер в подарок',
+      opts:[{k:'Планировка', v:['Прямая','Г-образная','П-образная']},{k:'Фасады', v:['Молочный','Графит','Бордо']}]},
+    {id:'verona', cat:'kitchen', name:'Обеденная группа «Verona»', style:'Скандинавская классика', mat:'Массив дуба, стулья с мягкой обивкой', img:U('photo-1617806118233-18e1de247200'),
+      desc:'Стол из массива дуба и мягкие стулья с удобной посадкой. Раздвижная столешница по запросу.', size:'Стол 160–220 см, 6 стульев',
+      opts:[{k:'Стульев', v:['4','6','8']},{k:'Обивка', v:['Букле','Велюр','Экокожа']}]},
+    {id:'nobile', cat:'kids', name:'Детская «Little Noble»', style:'Для детей и подростков', mat:'Экологичные материалы, закруглённые углы', img:U('photo-1560448204-e02f11c3d0e2'),
+      desc:'Безопасная и стильная мебель: кровать, шкаф и рабочая зона. Закруглённые углы, сертифицированные материалы.', size:'Комплектация подбирается под комнату',
+      opts:[{k:'Возраст', v:['3–7 лет','7–12 лет','Подросток']},{k:'Цвет', v:['Светлый дуб','Молочный','Серо-бежевый']}]}
   ];
+  const byId = Object.fromEntries(products.map(p => [p.id, p]));
   const catNames = {living:'Гостиная', bedroom:'Спальня', kitchen:'Кухня', kids:'Детская'};
-  const grid = document.getElementById('grid');
 
-  function renderGrid(cat){
-    const list = cat === 'all' ? products : products.filter(p => p.cat === cat);
+  /* ---------- State ---------- */
+  let favs = new Set((store.get('velario_favs', [])).filter(id => byId[id]));
+  const state = {cat:'all', q:'', onlyFav:false};
+  const saveFavs = () => store.set('velario_favs', Array.from(favs));
+
+  const heartSvg = '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.4" viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.6 4.6 0 018-3 4.6 4.6 0 018 3c0 5.8-8 11-8 11z"/></svg>';
+
+  function updateCounts(){
+    const n = favs.size;
+    $$('[data-fav-count]').forEach(el => { el.textContent = n; el.classList.toggle('hidden', n === 0); el.classList.toggle('flex', n > 0); });
+    $$('[data-fav-count2]').forEach(el => el.textContent = n);
+    const note = $('#leadFavNote');
+    if(n){ note.classList.remove('hidden'); note.textContent = `В заявку добавится ваша подборка (${n}): ` + Array.from(favs).map(id => plain(byId[id].name)).join(', '); }
+    else note.classList.add('hidden');
+  }
+
+  function toggleFav(id){
+    if(favs.has(id)){ favs.delete(id); toast('Убрано из подборки'); } else { favs.add(id); toast('Добавлено в подборку'); }
+    saveFavs(); updateCounts(); renderGrid(true); renderDrawer();
+    const mh = $('#modalFav'); if(mh) syncModalFav(id);
+  }
+
+  /* ---------- Grid ---------- */
+  const grid = $('#grid');
+  function renderGrid(keepScroll){
+    const q = state.q.trim().toLowerCase();
+    const list = products.filter(p =>
+      (state.cat === 'all' || p.cat === state.cat) &&
+      (!state.onlyFav || favs.has(p.id)) &&
+      (!q || (p.name + ' ' + p.style + ' ' + p.mat + ' ' + catNames[p.cat] + ' ' + p.desc).toLowerCase().includes(q)));
+    $('#resultNote').textContent = list.length ? `Показано: ${list.length} из ${products.length}` : '';
+    if(!list.length){
+      grid.innerHTML = `<div class="col-span-full text-center py-16 fade-step">
+        <p class="font-serif text-3xl">${state.onlyFav && !favs.size ? 'В подборке пока пусто' : 'Ничего не найдено'}</p>
+        <p class="text-ink/55 font-light mt-3">${state.onlyFav && !favs.size ? 'Нажмите ♥ на карточке, чтобы добавить модель.' : 'Попробуйте другой запрос — или напишите нам, подберём индивидуально.'}</p>
+        <a data-wa="${esc(HELLO + '. Не нашёл(а) нужную модель в каталоге: ' + state.q)}" target="_blank" rel="noopener" class="inline-block mt-6 btn-gold px-7 py-3 text-[.7rem] uppercase tracking-[.18em]">Написать менеджеру</a></div>`;
+      bindWA(grid); return;
+    }
     grid.innerHTML = list.map(p => `
-      <article class="card bg-white relative fade-step flex flex-col">
-        <div class="relative aspect-[4/5] overflow-hidden ph-fallback">
-          <img src="${p.img}" alt="${p.name}" loading="lazy" class="ph w-full h-full object-cover" onerror="this.style.display='none'">
+      <article class="card bg-white relative ${keepScroll ? '' : 'fade-step'} flex flex-col">
+        <div class="relative aspect-[4/5] overflow-hidden ph-fallback cursor-pointer" data-open="${p.id}" role="button" tabindex="0" aria-label="Подробнее: ${esc(plain(p.name))}">
+          <img src="${p.img}" alt="${esc(p.name)}" loading="lazy" class="ph w-full h-full object-cover" onerror="this.style.display='none'">
           <div class="frame"></div>
           <span class="absolute top-4 left-4 bg-graphite/85 text-gold text-[.6rem] uppercase tracking-[.2em] px-3 py-1.5">${catNames[p.cat]}</span>
         </div>
+        <button type="button" class="heart ${favs.has(p.id)?'on':''} absolute top-3 right-3 w-10 h-10 bg-white/90 text-ink flex items-center justify-center" data-fav="${p.id}" aria-pressed="${favs.has(p.id)}" aria-label="В подборку">${heartSvg}</button>
         <div class="p-6 flex flex-col flex-1">
-          <h3 class="font-serif text-2xl leading-tight">${p.name}</h3>
+          <h3 class="font-serif text-2xl leading-tight cursor-pointer hover:text-wine transition" data-open="${p.id}">${p.name}</h3>
           <p class="text-[.7rem] uppercase tracking-[.18em] text-wine mt-2">${p.style}</p>
           <p class="text-sm text-ink/60 font-light mt-3 leading-relaxed flex-1">${p.mat}</p>
-          <a target="_blank" rel="noopener" data-wa="Здравствуйте! Пишу с сайта Velario. Интересует «${p.name.replace(/[«»]/g,'')}» (${p.style}). Подскажите стоимость и наличие, пожалуйста." class="mt-6 block text-center border border-ink/80 text-ink hover:bg-ink hover:text-cream transition px-4 py-3 text-[.68rem] uppercase tracking-[.18em]">Узнать стоимость / Заказать</a>
+          <div class="mt-6 grid grid-cols-2 gap-2">
+            <button type="button" data-open="${p.id}" class="border border-ink/25 hover:border-gold transition px-3 py-3 text-[.64rem] uppercase tracking-[.16em]">Подробнее</button>
+            <a target="_blank" rel="noopener" data-wa="${esc(`Здравствуйте! Пишу с сайта Velario. Интересует «${plain(p.name)}» (${p.style}). Подскажите стоимость и наличие, пожалуйста.`)}" class="bg-ink text-cream hover:bg-wine transition px-3 py-3 text-[.64rem] uppercase tracking-[.16em] text-center">Цена в WhatsApp</a>
+          </div>
         </div>
       </article>`).join('');
     bindWA(grid);
   }
-  renderGrid('all');
-  document.getElementById('tabs').addEventListener('click', e => {
+  renderGrid();
+
+  $('#tabs').addEventListener('click', e => {
     const b = e.target.closest('.tab'); if(!b) return;
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    b.classList.add('active'); renderGrid(b.dataset.cat);
+    $$('#tabs .tab').forEach(t => t.classList.remove('active'));
+    b.classList.add('active'); state.cat = b.dataset.cat; renderGrid();
+  });
+  let st; $('#search').addEventListener('input', e => { clearTimeout(st); st = setTimeout(() => { state.q = e.target.value; renderGrid(); }, 150); });
+  $('#onlyFav').addEventListener('click', e => {
+    state.onlyFav = !state.onlyFav; e.currentTarget.setAttribute('aria-pressed', state.onlyFav);
+    e.currentTarget.classList.toggle('active', state.onlyFav); renderGrid();
+  });
+  grid.addEventListener('click', e => {
+    const f = e.target.closest('[data-fav]'); if(f){ toggleFav(f.dataset.fav); return; }
+    const o = e.target.closest('[data-open]'); if(o) openModal(o.dataset.open);
+  });
+  grid.addEventListener('keydown', e => {
+    if((e.key === 'Enter' || e.key === ' ') && e.target.matches('[data-open][role=button]')){ e.preventDefault(); openModal(e.target.dataset.open); }
   });
 
-  // Quiz
+  /* ---------- Overlay helpers ---------- */
+  let lastFocus = null;
+  function openOverlay(el){
+    lastFocus = document.activeElement; el.classList.remove('hidden'); document.body.classList.add('lock');
+    const c = $('[data-close]:not(.absolute), button[data-close]', el); if(c) c.focus();
+  }
+  function closeOverlays(){
+    $$('#modal, #drawer').forEach(el => el.classList.add('hidden'));
+    document.body.classList.remove('lock'); if(lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  document.addEventListener('click', e => { if(e.target.closest('[data-close]')) closeOverlays(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeOverlays(); });
+
+  /* ---------- Product modal ---------- */
+  const chosen = {};
+  function modalMsg(p){
+    const o = (chosen[p.id] || {});
+    const parts = p.opts.map(x => o[x.k] ? `${x.k}: ${o[x.k]}` : null).filter(Boolean);
+    return `Здравствуйте! Пишу с сайта Velario. Интересует «${plain(p.name)}» (${p.style}).` + (parts.length ? ` Выбрано — ${parts.join('; ')}.` : '') + ' Подскажите стоимость, наличие и сроки, пожалуйста.';
+  }
+  function syncModalFav(id){
+    const b = $('#modalFav'); if(!b || b.dataset.id !== id) return;
+    const on = favs.has(id); b.classList.toggle('on', on);
+    $('#modalFavText').textContent = on ? 'В подборке' : 'В подборку';
+  }
+  function openModal(id){
+    const p = byId[id]; if(!p) return;
+    chosen[id] = chosen[id] || {}; p.opts.forEach(x => { if(!chosen[id][x.k]) chosen[id][x.k] = x.v[0]; });
+    const idx = products.findIndex(x => x.id === id);
+    const box = $('#modalBox');
+    box.innerHTML = `
+      <button data-close class="absolute top-3 right-3 z-10 w-10 h-10 bg-graphite/80 text-milk text-2xl hover:text-gold" aria-label="Закрыть">×</button>
+      <div class="relative aspect-[4/5] sm:aspect-auto sm:min-h-[520px] ph-fallback">
+        <img src="${p.img.replace('w=900','w=1200')}" alt="${esc(p.name)}" class="absolute inset-0 w-full h-full object-cover" onerror="this.style.display='none'">
+        <span class="absolute top-4 left-4 bg-graphite/85 text-gold text-[.6rem] uppercase tracking-[.2em] px-3 py-1.5">${catNames[p.cat]}</span>
+      </div>
+      <div class="p-7 sm:p-9 flex flex-col">
+        <p class="text-[.68rem] uppercase tracking-[.2em] text-wine">${p.style}</p>
+        <h3 class="font-serif text-3xl sm:text-4xl mt-2 leading-tight">${p.name}</h3>
+        <div class="gold-line my-5"></div>
+        <p class="text-sm text-ink/70 font-light leading-relaxed">${p.desc}</p>
+        <dl class="mt-5 text-sm space-y-2">
+          <div class="flex gap-3"><dt class="w-24 shrink-0 text-ink/45">Материалы</dt><dd>${p.mat}</dd></div>
+          <div class="flex gap-3"><dt class="w-24 shrink-0 text-ink/45">Размеры</dt><dd>${p.size}</dd></div>
+        </dl>
+        ${p.opts.map(x => `<div class="mt-5"><div class="text-[.66rem] uppercase tracking-[.2em] text-ink/50 mb-2">${x.k}</div>
+          <div class="flex flex-wrap gap-2" data-opt="${x.k}">${x.v.map(v => `<button type="button" class="chip px-4 py-2 text-xs ${chosen[id][x.k]===v?'sel':''}" data-v="${esc(v)}">${v}</button>`).join('')}</div></div>`).join('')}
+        <p class="text-xs text-ink/45 mt-5">Цена зависит от комплектации и ткани — уточните у менеджера.</p>
+        <div class="mt-6 grid gap-3 pt-2">
+          <a id="modalWA" target="_blank" rel="noopener" class="btn-gold text-center px-6 py-4 text-[.72rem] uppercase tracking-[.2em] font-medium">Узнать стоимость в WhatsApp</a>
+          <button type="button" id="modalFav" data-id="${id}" class="heart ${favs.has(id)?'on':''} border border-ink/25 hover:border-gold px-6 py-3 text-[.68rem] uppercase tracking-[.18em] flex items-center justify-center gap-2">${heartSvg}<span id="modalFavText">${favs.has(id)?'В подборке':'В подборку'}</span></button>
+        </div>
+        <div class="mt-auto pt-6 flex justify-between text-[.64rem] uppercase tracking-[.18em] text-ink/45">
+          <button type="button" data-nav="${(idx-1+products.length)%products.length}" class="hover:text-wine">← Предыдущая</button>
+          <button type="button" data-nav="${(idx+1)%products.length}" class="hover:text-wine">Следующая →</button>
+        </div>
+      </div>`;
+    const refresh = () => { $('#modalWA').href = WA(modalMsg(p)); };
+    refresh();
+    $$('[data-opt]', box).forEach(g => g.addEventListener('click', e => {
+      const c = e.target.closest('.chip'); if(!c) return;
+      $$('.chip', g).forEach(x => x.classList.remove('sel')); c.classList.add('sel');
+      chosen[id][g.dataset.opt] = c.dataset.v; refresh();
+    }));
+    $('#modalFav').addEventListener('click', () => toggleFav(id));
+    $$('[data-nav]', box).forEach(b => b.addEventListener('click', () => openModal(products[+b.dataset.nav].id)));
+    const m = $('#modal'); if(m.classList.contains('hidden')) openOverlay(m);
+    box.scrollTop = 0;
+  }
+
+  /* ---------- Favorites drawer ---------- */
+  function renderDrawer(){
+    const list = $('#drawerList'), ids = Array.from(favs);
+    $('#drawerSend').disabled = !ids.length; $('#drawerSend').classList.toggle('opacity-40', !ids.length);
+    if(!ids.length){
+      list.innerHTML = '<div class="text-center text-milk/55 font-light py-16"><p class="font-serif text-2xl text-milk">Подборка пуста</p><p class="text-sm mt-3">Нажимайте ♥ на карточках — и отправьте всё одним сообщением.</p></div>'; return;
+    }
+    list.innerHTML = ids.map(id => { const p = byId[id]; return `
+      <div class="flex gap-4 items-center border border-gold/20 p-3">
+        <div class="w-16 h-20 ph-fallback shrink-0 overflow-hidden"><img src="${p.img}" alt="" class="w-full h-full object-cover" onerror="this.style.display='none'"></div>
+        <div class="flex-1 min-w-0"><div class="font-serif text-lg leading-tight">${p.name}</div><div class="text-[.64rem] uppercase tracking-[.16em] text-gold mt-1">${p.style}</div></div>
+        <button data-rm="${id}" class="w-9 h-9 text-milk/50 hover:text-gold text-xl" aria-label="Убрать">×</button>
+      </div>`; }).join('');
+  }
+  $('#drawerList').addEventListener('click', e => { const r = e.target.closest('[data-rm]'); if(r) toggleFav(r.dataset.rm); });
+  $$('[data-open-fav]').forEach(b => b.addEventListener('click', () => { renderDrawer(); $('#drawerName').value = (store.get('velario_lead', {}).name) || ''; openOverlay($('#drawer')); }));
+  $('#drawerClear').addEventListener('click', () => { favs.clear(); saveFavs(); updateCounts(); renderGrid(true); renderDrawer(); });
+  $('#drawerSend').addEventListener('click', () => {
+    if(!favs.size) return;
+    const name = $('#drawerName').value.trim();
+    const lines = Array.from(favs).map((id,i) => `${i+1}. ${plain(byId[id].name)} (${byId[id].style})`).join('\n');
+    openWA(`Здравствуйте!${name ? ' Меня зовут ' + name + '.' : ''} Пишу с сайта Velario. Меня заинтересовали модели:\n${lines}\nПодскажите стоимость, наличие и сроки, пожалуйста.`);
+    toast('Открываем WhatsApp — осталось нажать «Отправить»');
+  });
+  updateCounts();
+
+  /* ---------- Quiz ---------- */
   const quiz = {step:1, room:null, when:null};
-  const qbody = document.getElementById('qbody'), qbar = document.getElementById('qbar'),
-        qstep = document.getElementById('qstep'), qback = document.getElementById('qback');
+  const qbody = $('#qbody'), qbar = $('#qbar'), qstep = $('#qstep'), qback = $('#qback');
   const rooms = ['Спальня','Гостиная','Кухня','Весь дом'];
   const whens = ['Срочно','В течение месяца','На этапе ремонта'];
-
   function renderQuiz(){
     qbar.style.width = (quiz.step/3*100) + '%';
     qstep.textContent = `Шаг ${quiz.step} / 3`;
@@ -396,13 +672,16 @@ tailwind.config = {
       qbody.innerHTML = `<div class="fade-step"><h3 class="font-serif text-3xl sm:text-4xl mb-8">Когда планируете покупку?</h3>
         <div class="grid gap-4">${whens.map(w=>`<button class="opt px-6 py-5 text-left text-sm tracking-wider ${quiz.when===w?'sel':''}" data-when="${w}">${w}</button>`).join('')}</div></div>`;
     } else {
-      const msg = `Здравствуйте! Пишу с сайта Velario (подбор за 1 минуту). Ищу мебель: ${quiz.room}. Планирую покупку: ${quiz.when}. Пришлите, пожалуйста, подборку моделей и прайс.`;
+      const fav = favs.size ? ` Уже выбрал(а) в каталоге: ${Array.from(favs).map(id => plain(byId[id].name)).join(', ')}.` : '';
+      const msg = `Здравствуйте! Пишу с сайта Velario (подбор за 1 минуту). Ищу мебель: ${quiz.room}. Планирую покупку: ${quiz.when}.${fav} Пришлите, пожалуйста, подборку моделей и прайс.`;
       qbody.innerHTML = `<div class="fade-step text-center">
         <div class="w-14 h-14 mx-auto border border-gold flex items-center justify-center text-gold text-2xl mb-6">✓</div>
         <h3 class="font-serif text-3xl sm:text-4xl">Всё готово</h3>
         <p class="text-milk/65 font-light mt-4 mb-2">Мебель для: <span class="text-gold">${quiz.room}</span> · Покупка: <span class="text-gold">${quiz.when}</span></p>
         <p class="text-milk/50 text-sm font-light mb-8">Заявка сформируется автоматически — останется нажать «Отправить» в WhatsApp.</p>
-        <a href="${WA(msg)}" target="_blank" rel="noopener" class="btn-gold inline-block px-8 py-4 text-[.72rem] uppercase tracking-[.2em] font-medium">Получить подборку моделей и прайс в WhatsApp</a></div>`;
+        <a href="${WA(msg)}" target="_blank" rel="noopener" class="btn-gold inline-block px-8 py-4 text-[.72rem] uppercase tracking-[.2em] font-medium">Получить подборку моделей и прайс в WhatsApp</a>
+        <button type="button" id="qreset" class="block mx-auto mt-6 text-xs uppercase tracking-[.2em] text-milk/45 hover:text-gold transition">Пройти заново</button></div>`;
+      $('#qreset').addEventListener('click', () => { quiz.step = 1; quiz.room = quiz.when = null; renderQuiz(); });
     }
   }
   qbody.addEventListener('click', e => {
@@ -413,26 +692,102 @@ tailwind.config = {
   qback.addEventListener('click', () => { quiz.step = Math.max(1, quiz.step-1); renderQuiz(); });
   renderQuiz();
 
-  // Header: transparent -> solid on scroll
-  const header = document.getElementById('top');
+  /* ---------- Lead form ---------- */
+  const form = $('#leadForm');
+  const phoneInput = form.elements.phone;
+  function fmtPhone(v){
+    let d = v.replace(/\D/g, '');
+    if(d.startsWith('8')) d = '7' + d.slice(1);
+    if(!d.startsWith('7')) d = '7' + d;
+    d = d.slice(0, 11);
+    let out = '+7';
+    if(d.length > 1) out += ' (' + d.slice(1, 4);
+    if(d.length >= 4) out += ')';
+    if(d.length > 4) out += ' ' + d.slice(4, 7);
+    if(d.length > 7) out += '-' + d.slice(7, 9);
+    if(d.length > 9) out += '-' + d.slice(9, 11);
+    return out;
+  }
+  phoneInput.addEventListener('focus', () => { if(!phoneInput.value) phoneInput.value = '+7 ('; });
+  phoneInput.addEventListener('input', () => { phoneInput.value = fmtPhone(phoneInput.value); });
+  phoneInput.addEventListener('blur', () => { if(phoneInput.value.replace(/\D/g,'').length <= 1) phoneInput.value = ''; });
+  const saved = store.get('velario_lead', {});
+  if(saved.name) form.elements.name.value = saved.name;
+  if(saved.phone) phoneInput.value = saved.phone;
+
+  function setErr(el, msg){
+    const holder = el.closest('label') ? el.closest('label') : null;
+    const err = holder ? $('.err', holder) : $('.err[data-for="consent"]');
+    if(err) err.textContent = msg || '';
+    if(el.classList && el.classList.contains('field')) el.classList.toggle('bad', !!msg);
+  }
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const f = form.elements; let ok = true;
+    const name = f.name.value.trim(), digits = f.phone.value.replace(/\D/g, '');
+    if(name.length < 2){ setErr(f.name, 'Укажите имя'); ok = false; } else setErr(f.name, '');
+    if(digits.length !== 11){ setErr(f.phone, 'Введите номер полностью'); ok = false; } else setErr(f.phone, '');
+    if(!f.consent.checked){ $('.err[data-for="consent"]').textContent = 'Нужно согласие на обработку данных'; ok = false; } else $('.err[data-for="consent"]').textContent = '';
+    if(!ok){ const bad = $('.bad', form) || f.consent; bad.focus(); return; }
+    store.set('velario_lead', {name, phone: f.phone.value});
+    const fav = favs.size ? `\nВыбранные модели: ${Array.from(favs).map(id => plain(byId[id].name)).join(', ')}` : '';
+    const comment = f.comment.value.trim();
+    openWA(`Здравствуйте! Заявка с сайта Velario.\nИмя: ${name}\nТелефон: ${f.phone.value}\nИнтересует: ${f.topic.value}${comment ? '\nКомментарий: ' + comment : ''}${fav}`);
+    toast('Открываем WhatsApp — осталось нажать «Отправить»');
+  });
+  form.addEventListener('input', e => { if(e.target.name === 'name' || e.target.name === 'phone') setErr(e.target, ''); });
+
+  /* ---------- Open / closed status (Astana, UTC+5) ---------- */
+  function status(){
+    const now = new Date(Date.now() + new Date().getTimezoneOffset()*60000 + 5*3600000);
+    const mins = now.getHours()*60 + now.getMinutes();
+    let text, open = false;
+    if(mins >= 600 && mins < 1140){ open = true; text = 'Сейчас открыто · до 19:00'; }
+    else if(mins < 600) text = 'Сейчас закрыто · откроемся в 10:00';
+    else text = 'Сейчас закрыто · откроемся завтра в 10:00';
+    $$('[data-status]').forEach(el => el.textContent = text);
+    $$('[data-dot]').forEach(el => { el.style.background = open ? '#6fcf97' : '#C5A059'; });
+  }
+  status(); setInterval(status, 60000);
+
+  /* ---------- Copy address ---------- */
+  const copyBtn = $('#copyAddr');
+  if(copyBtn) copyBtn.addEventListener('click', async () => {
+    const t = 'г. Астана, ул. Касыма Аманжолова, 22 (ЖК HAYAT)';
+    try { await navigator.clipboard.writeText(t); toast('Адрес скопирован'); }
+    catch(e){ toast(t); }
+  });
+
+  /* ---------- Header, menu, scrollspy, to-top ---------- */
+  const header = $('#top');
+  const toTop = $('#toTop');
   const setHeader = () => {
     const s = scrollY > 40;
     header.classList.toggle('bg-graphite/90', s); header.classList.toggle('backdrop-blur-md', s);
     header.classList.toggle('border-b', s); header.classList.toggle('border-gold/20', s);
+    toTop.classList.toggle('hidden', scrollY < 900); toTop.classList.toggle('flex', scrollY >= 900);
   };
   addEventListener('scroll', setHeader, {passive:true}); setHeader();
+  toTop.addEventListener('click', () => scrollTo({top:0, behavior:'smooth'}));
 
-  // Mobile menu
-  const mob = document.getElementById('mobmenu');
-  document.getElementById('burger').addEventListener('click', () => mob.classList.toggle('hidden'));
-  mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mob.classList.add('hidden')));
+  const mob = $('#mobmenu'), burger = $('#burger');
+  burger.addEventListener('click', () => { mob.classList.toggle('hidden'); burger.setAttribute('aria-expanded', !mob.classList.contains('hidden')); });
+  $$('a', mob).forEach(a => a.addEventListener('click', () => mob.classList.add('hidden')));
 
-  // Reveal on scroll
+  const spyLinks = $$('header nav .nav-link');
+  const targets = spyLinks.map(a => $(a.getAttribute('href'))).filter(Boolean);
+  const spy = new IntersectionObserver(es => es.forEach(e => {
+    if(e.isIntersecting) spyLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id));
+  }), {rootMargin:'-45% 0px -50% 0px'});
+  targets.forEach(t => spy.observe(t));
+
+  /* ---------- Reveal ---------- */
   const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.12});
-  document.querySelectorAll('.reveal').forEach((el,i) => { el.style.transitionDelay = (i%4)*70 + 'ms'; io.observe(el); });
+  $$('.reveal').forEach((el,i) => { el.style.transitionDelay = (i%4)*70 + 'ms'; io.observe(el); });
 
-  document.getElementById('year').textContent = new Date().getFullYear();
+  $('#year').textContent = new Date().getFullYear();
 })();
+
 </script>
 </body>
 </html>
