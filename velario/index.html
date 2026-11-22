@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>VELARIO — Мебель премиум-класса в Астане</title>
-<meta name="description" content="VELARIO — салон мебели премиум-класса в Астане (ЖК HAYAT). Спальни, гостиные, кухни, детские. Розница и опт, доставка по всему Казахстану.">
+<meta name="description" content="VELARIO — салон мебели премиум-класса в Астане (ЖК HAYAT). Спальные комплекты, диваны и модули, гостиные, кровати, столы и стулья. Розница и опт, доставка по всему Казахстану.">
 <meta name="theme-color" content="#F7F5F0">
 <script>try{if(JSON.parse(localStorage.getItem("velario_theme"))==="dark")document.documentElement.classList.add("dark")}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -189,17 +189,19 @@ tailwind.config = {
     </div>
     <div id="tabs" class="flex flex-wrap gap-x-6 gap-y-2 text-[.82rem]">
       <button class="tab active" data-cat="all">Все</button>
-      <button class="tab" data-cat="living">Гостиные</button>
       <button class="tab" data-cat="bedroom">Спальни</button>
-      <button class="tab" data-cat="kitchen">Кухни</button>
-      <button class="tab" data-cat="kids">Детские</button>
+      <button class="tab" data-cat="sofa">Диваны и модули</button>
+      <button class="tab" data-cat="living">Гостиные</button>
+      <button class="tab" data-cat="bed">Кровати</button>
+      <button class="tab" data-cat="table">Столы</button>
+      <button class="tab" data-cat="chair">Стулья</button>
     </div>
   </div>
 
   <div class="mt-10 flex flex-col sm:flex-row gap-3 reveal">
     <div class="relative flex-1">
       <svg class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-ink/40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
-      <input id="search" type="search" placeholder="Найти: диван, кровать, кухня…" aria-label="Поиск по каталогу" class="w-full bg-white border border-ink/15 focus:border-wine outline-none pl-11 pr-4 py-3 text-sm placeholder:text-ink/40 transition">
+      <input id="search" type="search" placeholder="Найти: диван, кровать, стол, Verona…" aria-label="Поиск по каталогу" class="w-full bg-white border border-ink/15 focus:border-wine outline-none pl-11 pr-4 py-3 text-sm placeholder:text-ink/40 transition">
     </div>
     <button id="onlyFav" type="button" aria-pressed="false" class="text-[.72rem] uppercase tracking-[.14em] flex items-center justify-center gap-2 bg-white">♥ Избранное <span data-fav-count2 class="text-wine font-semibold">0</span></button>
   </div>
@@ -254,7 +256,7 @@ tailwind.config = {
       </div>
       <label class="block mt-1"><span class="lab">Что интересует</span>
         <select name="topic" class="field bg-cream">
-          <option>Спальня</option><option>Гостиная</option><option>Кухня и обеденная зона</option><option>Детская</option><option>Весь дом</option><option>Опт / для дизайнера или застройщика</option><option>Другое</option>
+          <option>Спальня</option><option>Гостиная / диван</option><option>Столовая (стол и стулья)</option><option>Кровать</option><option>Весь дом</option><option>Опт / для дизайнера или застройщика</option><option>Другое</option>
         </select></label>
       <label class="block mt-5"><span class="lab">Комментарий</span>
         <textarea name="comment" rows="3" class="field resize-none" placeholder="Размеры комнаты, стиль, сроки — по желанию"></textarea></label>
@@ -382,36 +384,27 @@ tailwind.config = {
     if(!w) location.href = url;
   }
 
-  /* ---------- Catalog data ---------- */
-  const U = id => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=900&q=75`;
-  const products = [
-    {id:'aurelia', cat:'living', name:'Диван «Aurelia»', style:'Современная классика', mat:'Букле, массив бука, пенополиуретан высокой плотности', img:U('photo-1555041469-a586c61ea9bc'),
-      desc:'Модульный диван с мягкими обтекаемыми формами. Глубокая посадка, съёмные подушки, каркас из массива бука.', size:'Ширина 240–320 см, глубина 105 см',
-      opts:[{k:'Обивка', v:['Букле молочное','Велюр графит','Велюр марсала']},{k:'Конфигурация', v:['Прямой 3-местный','Угловой','Модульный']}]},
-    {id:'seraphine', cat:'living', name:'Кресло «Seraphine»', style:'Art Deco', mat:'Бархат, латунные акценты', img:U('photo-1540518614846-7eded433c457'),
-      desc:'Дизайнерское кресло с изогнутой спинкой и тонкими латунными ножками. Акцент для гостиной или кабинета.', size:'Ширина 78 см, глубина 80 см, высота 82 см',
-      opts:[{k:'Обивка', v:['Бархат бордо','Бархат шампань','Бархат графит']}]},
-    {id:'lumiere', cat:'living', name:'Витрина «Lumière»', style:'Неоклассика', mat:'Шпон ореха, закалённое стекло, LED-подсветка', img:U('photo-1513694203232-719a280e022f'),
-      desc:'Витрина со стеклянными полками и тёплой подсветкой. Подчёркивает коллекции, посуду и декор.', size:'Ширина 120 см, глубина 40 см, высота 200 см',
-      opts:[{k:'Отделка', v:['Орех','Дуб беленый','Графит']}]},
-    {id:'marquise', cat:'bedroom', name:'Кровать «Marquise»', style:'Мягкое изголовье', mat:'Велюр, каретная стяжка, ортопедическое основание', img:U('photo-1505693416388-ac5ce068fe85'),
-      desc:'Кровать с высоким мягким изголовьем в каретной стяжке и ортопедическим основанием. Возможно подъёмное основание.', size:'Под матрас 160×200 или 180×200 см',
-      opts:[{k:'Размер', v:['160×200','180×200','200×200']},{k:'Обивка', v:['Велюр бежевый','Велюр марсала','Велюр графит']}]},
-    {id:'versailles', cat:'bedroom', name:'Туалетный столик «Versailles»', style:'Французская классика', mat:'МДФ в эмали, зеркало, золотистая фурнитура', img:U('photo-1522771739844-6a9f6d5f14af'),
-      desc:'Столик с вместительными ящиками, зеркалом и золотистой фурнитурой. Хорошо сочетается с кроватью и тумбами из серии.', size:'Ширина 110 см, глубина 45 см',
-      opts:[{k:'Цвет', v:['Молочный','Графит','Капучино']}]},
-    {id:'milano', cat:'kitchen', name:'Кухонный гарнитур «Milano»', style:'Современный минимализм', mat:'Матовые фасады, кварцевая столешница, доводчики', img:U('photo-1556228453-efd6c1ff04f6'),
-      desc:'Кухня по индивидуальным размерам: матовые фасады, скрытая фурнитура, плавное закрывание, встроенная подсветка.', size:'Под размеры вашей кухни, замер в подарок',
-      opts:[{k:'Планировка', v:['Прямая','Г-образная','П-образная']},{k:'Фасады', v:['Молочный','Графит','Бордо']}]},
-    {id:'verona', cat:'kitchen', name:'Обеденная группа «Verona»', style:'Скандинавская классика', mat:'Массив дуба, стулья с мягкой обивкой', img:U('photo-1617806118233-18e1de247200'),
-      desc:'Стол из массива дуба и мягкие стулья с удобной посадкой. Раздвижная столешница по запросу.', size:'Стол 160–220 см, 6 стульев',
-      opts:[{k:'Стульев', v:['4','6','8']},{k:'Обивка', v:['Букле','Велюр','Экокожа']}]},
-    {id:'nobile', cat:'kids', name:'Детская «Little Noble»', style:'Для детей и подростков', mat:'Экологичные материалы, закруглённые углы', img:U('photo-1560448204-e02f11c3d0e2'),
-      desc:'Безопасная и стильная мебель: кровать, шкаф и рабочая зона. Закруглённые углы, сертифицированные материалы.', size:'Комплектация подбирается под комнату',
-      opts:[{k:'Возраст', v:['3–7 лет','7–12 лет','Подросток']},{k:'Цвет', v:['Светлый дуб','Молочный','Серо-бежевый']}]}
-  ];
+
+  /* ---------- Catalog data (прайс VELARIO 2026; цены в тенге, модули/позиции — в тыс. ₸) ---------- */
+  const products = [{"id":"verona-6","cat":"bedroom","name":"«Verona»","style":"Спальный комплект · шкаф 6 дв., кровать 1,8","img":"img/bed-verona-6.jpg","price":1270000,"inc":[["Шкаф 6 дв.",445],["Кровать 1,8 с базой",605],["Трюмо с зеркалом",220],["Тумба ×2",130]],"add":[["Бельевой ящик (комод)",145],["Высокое зеркало",80]],"mat":"Шкаф 6 дв., кровать 1,8 с базой, трюмо с зеркалом, тумба ×2","desc":"Спальный комплект коллекции 2026. Цена комплекта и стоимость каждого предмета — ниже; дополнительные предметы можно добавить к заказу.","size":"","kind":"set"},{"id":"verona-4","cat":"bedroom","name":"«Verona»","style":"Спальный комплект · шкаф 4 дв., кровать 1,6","img":"img/bed-verona-4.jpg","price":1180000,"inc":[["Шкаф 4 дв.",380],["Кровать 1,6 с базой",580],["Трюмо с зеркалом",220],["Тумба ×2",130]],"add":[["Бельевой ящик (комод)",145],["Высокое зеркало",80]],"mat":"Шкаф 4 дв., кровать 1,6 с базой, трюмо с зеркалом, тумба ×2","desc":"Спальный комплект коллекции 2026. Цена комплекта и стоимость каждого предмета — ниже; дополнительные предметы можно добавить к заказу.","size":"","kind":"set"},{"id":"vita-6","cat":"bedroom","name":"«Vita»","style":"Спальный комплект · шкаф 6 дв., кровать 1,8","img":"img/bed-vita-4.jpg","price":1785000,"inc":[["Шкаф 6 дв.",715],["Кровать 1,8 с базой",780],["Трюмо с зеркалом",290],["Тумба ×1",100],["Тумба ×1",100]],"add":[],"mat":"Шкаф 6 дв., кровать 1,8 с базой, трюмо с зеркалом, тумба ×1, тумба ×1","desc":"Спальный комплект коллекции 2026. Цена комплекта и стоимость каждого предмета — ниже; дополнительные предметы можно добавить к заказу.","size":"","kind":"set"},{"id":"vita-4","cat":"bedroom","name":"«Vita»","style":"Спальный комплект · шкаф 4 дв., кровать 1,6","img":"img/bed-vita-4b.jpg","price":1565000,"inc":[["Шкаф 4 дв.",520],["Кровать 1,6 с базой",755],["Трюмо с зеркалом",290],["Тумба ×1",100],["Тумба ×1",100]],"add":[],"mat":"Шкаф 4 дв., кровать 1,6 с базой, трюмо с зеркалом, тумба ×1, тумба ×1","desc":"Спальный комплект коллекции 2026. Цена комплекта и стоимость каждого предмета — ниже; дополнительные предметы можно добавить к заказу.","size":"","kind":"set"},{"id":"tesero-4","cat":"bedroom","name":"«Tesero»","style":"Спальный комплект · шкаф 4 дв., кровать 1,6","img":"img/bed-tesero-4.jpg","price":1455000,"inc":[["Шкаф 4 дв.",455],["Кровать 1,6 с базой",710],["Трюмо с зеркалом",290],["Тумба ×1",90],["Тумба ×1",90]],"add":[],"mat":"Шкаф 4 дв., кровать 1,6 с базой, трюмо с зеркалом, тумба ×1, тумба ×1","desc":"Спальный комплект коллекции 2026. Цена комплекта и стоимость каждого предмета — ниже; дополнительные предметы можно добавить к заказу.","size":"","kind":"set"},{"id":"tesero-6","cat":"bedroom","name":"«Tesero»","style":"Спальный комплект · шкаф 6 дв., кровать 1,8","img":"img/bed-tesero-6.jpg","price":1690000,"inc":[["Шкаф 6 дв.",665],["Кровать 1,8 с базой",735],["Трюмо с зеркалом",290],["Тумба ×1",90],["Тумба ×1",90]],"add":[],"mat":"Шкаф 6 дв., кровать 1,8 с базой, трюмо с зеркалом, тумба ×1, тумба ×1","desc":"Спальный комплект коллекции 2026. Цена комплекта и стоимость каждого предмета — ниже; дополнительные предметы можно добавить к заказу.","size":"","kind":"set"},{"id":"castella-4","cat":"bedroom","name":"«Castella»","style":"Спальный комплект · шкаф 4 дв., кровать 1,6","img":"img/bed-castella-4.jpg","price":915000,"inc":[["Шкаф 4 дв.",305],["Кровать 1,6 с базой",455],["Трюмо с зеркалом",155],["Тумба ×2",65]],"add":[["Антресоль 4 дв.",70]],"mat":"Шкаф 4 дв., кровать 1,6 с базой, трюмо с зеркалом, тумба ×2","desc":"Спальный комплект коллекции 2026. Цена комплекта и стоимость каждого предмета — ниже; дополнительные предметы можно добавить к заказу.","size":"","kind":"set"},{"id":"castella-6","cat":"bedroom","name":"«Castella»","style":"Спальный комплект · шкаф 4+2 дв., кровать 1,8","img":"img/bed-castella-6.jpg","price":1045000,"inc":[["Шкаф 4 дв.",305],["Шкаф 2 дв.",105],["Кровать 1,8 с базой",480],["Трюмо с зеркалом",155],["Тумба ×2",65]],"add":[["Антресоль 4 дв.",70],["Антресоль 2 дв.",40]],"mat":"Шкаф 4 дв., шкаф 2 дв., кровать 1,8 с базой, трюмо с зеркалом, тумба ×2","desc":"Спальный комплект коллекции 2026. Цена комплекта и стоимость каждого предмета — ниже; дополнительные предметы можно добавить к заказу.","size":"","kind":"set"},{"id":"aylin-4","cat":"bedroom","name":"«Aylin»","style":"Спальный комплект · шкаф 4 дв., кровать 1,8","img":"img/bed-aylin-4.jpg","price":1235000,"inc":[["Шкаф 4 дв.",390],["Кровать 1,8 с базой",600],["Трюмо",210],["Зеркало трюмо",35],["Тумба ×1",75],["Тумба ×1",75]],"add":[],"mat":"Шкаф 4 дв., кровать 1,8 с базой, трюмо, зеркало трюмо, тумба ×1, тумба ×1","desc":"Спальный комплект коллекции 2026. Цена комплекта и стоимость каждого предмета — ниже; дополнительные предметы можно добавить к заказу.","size":"","kind":"set"},{"id":"aylin-6","cat":"bedroom","name":"«Aylin»","style":"Спальный комплект · шкаф 6 дв., кровать 1,8","img":"img/bed-aylin-6.jpg","price":1320000,"inc":[["Шкаф 6 дв.",475],["Кровать 1,8 с базой",600],["Трюмо",210],["Зеркало трюмо",35],["Тумба ×1",75],["Тумба ×1",75]],"add":[],"mat":"Шкаф 6 дв., кровать 1,8 с базой, трюмо, зеркало трюмо, тумба ×1, тумба ×1","desc":"Спальный комплект коллекции 2026. Цена комплекта и стоимость каждого предмета — ниже; дополнительные предметы можно добавить к заказу.","size":"","kind":"set"},{"id":"versal","cat":"bedroom","name":"«Versal»","style":"Спальный комплект · кровать 1,8×2,0 с матрасом","img":"img/bed-versal.jpg","price":1850000,"inc":[["Шифоньер",0],["Кровать с базой",0],["Трюмо с зеркалом",0],["Тумба ×2",0],["Матрас 1,8×2,0",0]],"add":[],"mat":"Шифоньер, кровать с базой, трюмо с зеркалом, тумба ×2, матрас 1,8×2,0","desc":"Спальный комплект коллекции 2026. Цена комплекта и стоимость каждого предмета — ниже; дополнительные предметы можно добавить к заказу.","size":"","kind":"set"},{"id":"orion","cat":"bedroom","name":"«Orion»","style":"Спальный комплект · шкаф 6 дв., кровать 1,8","img":"img/bed-orion.jpg","price":1680000,"inc":[["Шкаф 6 дв.",640],["Кровать 1,8 с базой",780],["Тумба ×2",235],["Трюмо с зеркалом",225],["Комод",160]],"add":[],"mat":"Шкаф 6 дв., кровать 1,8 с базой, тумба ×2, трюмо с зеркалом, комод","desc":"Спальный комплект коллекции 2026. Цена комплекта и стоимость каждого предмета — ниже; дополнительные предметы можно добавить к заказу.","size":"","kind":"set"},{"id":"efsun-4","cat":"bedroom","name":"«Efsun»","style":"Спальный комплект · шкаф 4 дв., кровать 1,6","img":"img/bed-efsun-4.jpg","price":1280000,"inc":[["Шкаф 4 дв.",440],["Кровать 1,6 с базой",645],["Трюмо",195],["Зеркало трюмо",65],["Тумба ×1",95],["Тумба ×1",95]],"add":[],"mat":"Шкаф 4 дв., кровать 1,6 с базой, трюмо, зеркало трюмо, тумба ×1, тумба ×1","desc":"Спальный комплект коллекции 2026. Цена комплекта и стоимость каждого предмета — ниже; дополнительные предметы можно добавить к заказу.","size":"","kind":"set"},{"id":"efsun-6","cat":"bedroom","name":"«Efsun»","style":"Спальный комплект · шкаф 6 дв., кровать 1,8","img":"img/bed-efsun-6.jpg","price":1450000,"inc":[["Шкаф 6 дв.",585],["Кровать 1,8 с базой",670],["Трюмо",195],["Зеркало трюмо",65],["Тумба ×1",95],["Тумба ×1",95]],"add":[],"mat":"Шкаф 6 дв., кровать 1,8 с базой, трюмо, зеркало трюмо, тумба ×1, тумба ×1","desc":"Спальный комплект коллекции 2026. Цена комплекта и стоимость каждого предмета — ниже; дополнительные предметы можно добавить к заказу.","size":"","kind":"set"},{"id":"sofa-vita","cat":"sofa","name":"«Vita»","style":"Модульный диван","img":"img/sofa-vita.jpg","price":null,"mods":[["Релакс модуль",350],["L / R — модуль с подлокотником",320],["M — средний модуль",250],["C — угловой модуль",260],["P — пуф",175],["A — кресло",280],["V — аудиосистема",215],["T — модуль кофейного стола",160]],"mat":"Модули: релакс модуль, l / r — модуль с подлокотником, m — средний модуль, c — угловой модуль…","desc":"Собирайте конфигурацию из модулей под свою гостиную: выберите нужное количество каждого — стоимость посчитается автоматически.","size":"","kind":"mods"},{"id":"sofa-tesero","cat":"sofa","name":"«Tesero»","style":"Модульный диван","img":"img/sofa-tesero.jpg","price":null,"mods":[["R — правый модуль с подлокотником",355],["L — левый модуль с подлокотником",355],["M — средний модуль",200],["C — угловой модуль",340],["A — кресло",215],["P — пуф",115]],"mat":"Модули: r — правый модуль с подлокотником, l — левый модуль с подлокотником, m — средний модуль, c — угловой модуль…","desc":"Собирайте конфигурацию из модулей под свою гостиную: выберите нужное количество каждого — стоимость посчитается автоматически.","size":"","kind":"mods"},{"id":"sofa-sevil","cat":"sofa","name":"«Sevil»","style":"Модульный диван","img":"img/sofa-sevil.jpg","price":null,"mods":[["L / R — модуль с подлокотником",485],["M — средний модуль",390],["D — релакс модуль",380]],"mat":"Модули: l / r — модуль с подлокотником, m — средний модуль, d — релакс модуль","desc":"Собирайте конфигурацию из модулей под свою гостиную: выберите нужное количество каждого — стоимость посчитается автоматически.","size":"","kind":"mods"},{"id":"sofa-estella","cat":"sofa","name":"«Estella»","style":"Диван и кресла","img":"img/sofa-estella.jpg","price":null,"mods":[["B — диван",635],["A — кресло",240],["T — кофейный стол",145]],"mat":"Модули: b — диван, a — кресло, t — кофейный стол","desc":"Диван с креслами и кофейным столом: выберите нужные позиции — стоимость посчитается автоматически.","size":"","kind":"mods"},{"id":"sofa-sedef","cat":"sofa","name":"«Sedef»","style":"Модульный диван","img":"img/sofa-sedef.jpg","price":null,"mods":[["L1 — модуль с подлокотником",335],["Модуль с подлокотником (механизм)",415],["M1 — средний модуль",245],["V1 — модуль аудиосистемы",310],["C1 — угловой модуль",410],["T1 — модуль кофейного стола",150],["A1 — кресло",255]],"mat":"Модули: l1 — модуль с подлокотником, модуль с подлокотником (механизм), m1 — средний модуль, v1 — модуль аудиосистемы…","desc":"Собирайте конфигурацию из модулей под свою гостиную: выберите нужное количество каждого — стоимость посчитается автоматически.","size":"","kind":"mods"},{"id":"sofa-inzare-1","cat":"sofa","name":"«Inzare»","style":"Модульный диван · вариант 1","img":"img/sofa-inzare-1.jpg","price":null,"mods":[["L1 — с подиумом",325],["R1 — с подиумом",325],["M1 — средний модуль",230],["C1 — угловой модуль",325],["A1 — кресло",215]],"mat":"Модули: l1 — с подиумом, r1 — с подиумом, m1 — средний модуль, c1 — угловой модуль…","desc":"Собирайте конфигурацию из модулей под свою гостиную: выберите нужное количество каждого — стоимость посчитается автоматически.","size":"","kind":"mods"},{"id":"sofa-inzare-2","cat":"sofa","name":"«Inzare»","style":"Модульный диван · вариант 2","img":"img/sofa-inzare-2.jpg","price":null,"mods":[["L3 — с подиумом",325],["R3 — с подиумом",325],["M3 — средний модуль",230],["C3 — угловой модуль",325],["A3 — кресло",285]],"mat":"Модули: l3 — с подиумом, r3 — с подиумом, m3 — средний модуль, c3 — угловой модуль…","desc":"Собирайте конфигурацию из модулей под свою гостиную: выберите нужное количество каждого — стоимость посчитается автоматически.","size":"","kind":"mods"},{"id":"sofa-madeyra","cat":"sofa","name":"«Madeyra»","style":"Модульный диван","img":"img/sofa-madeyra.jpg","price":null,"mods":[["L1 — с подлокотником 130 см",280],["R1 — с подлокотником 130 см",280],["M1 — средний модуль 90 см",195],["C1 — угловой модуль",300],["T1 — журнальный стол",110],["A1 — кресло",185],["V1 — книжный модуль с акустикой",180],["D1 — релакс модуль",375]],"mat":"Модули: l1 — с подлокотником 130 см, r1 — с подлокотником 130 см, m1 — средний модуль 90 см, c1 — угловой модуль…","desc":"Собирайте конфигурацию из модулей под свою гостиную: выберите нужное количество каждого — стоимость посчитается автоматически.","size":"","kind":"mods"},{"id":"sofa-rowli","cat":"sofa","name":"«Rowli»","style":"Диван и кресла","img":"img/sofa-rowli.jpg","price":null,"mods":[["B — диван",635],["A — кресло",215]],"mat":"Модули: b — диван, a — кресло","desc":"Диван и пара кресел: выберите нужные позиции — стоимость посчитается автоматически.","size":"","kind":"mods"},{"id":"liv-tesero","cat":"living","name":"«Tesero»","style":"Гостиная · консоль и сервант","img":"img/liv-tesero.jpg","price":null,"mods":[["Консоль",370],["Сервант 90 см",315]],"mat":"Модули: консоль, сервант 90 см","desc":"Элементы гостиной коллекции Tesero: консоль и сервант. Выберите нужные — стоимость посчитается автоматически.","size":"","kind":"mods"},{"id":"liv-efsun","cat":"living","name":"«Efsun»","style":"Гостиная · сервант и консоль","img":"img/liv-efsun.jpg","price":null,"mods":[["Сервант 90 см",465],["Консоль с зеркалом",370]],"mat":"Модули: сервант 90 см, консоль с зеркалом","desc":"Элементы гостиной коллекции Efsun: сервант и консоль с зеркалом. Выберите нужные — стоимость посчитается автоматически.","size":"","kind":"mods"},{"id":"bed-prestige","cat":"bed","name":"«Prestige»","style":"Кровать","img":"img/bed-prestige.jpg","price":495000,"mat":"Кровать","desc":"Кровать из каталога VELARIO 2026. Цена указана за кровать; размер и комплектацию уточняйте у менеджера.","size":"","kind":"single"},{"id":"bed-prestige-90","cat":"bed","name":"«Prestige»","style":"Кровать 90 см","img":"img/bed-prestige-90.jpg","price":415000,"mat":"Ширина 90 см","desc":"Кровать из каталога VELARIO 2026. Цена указана за кровать; размер и комплектацию уточняйте у менеджера.","size":"Ширина 90 см","kind":"single"},{"id":"bed-astoriya","cat":"bed","name":"«Astoriya»","style":"Кровать","img":"img/bed-astoriya.jpg","price":490000,"mat":"Кровать","desc":"Кровать из каталога VELARIO 2026. Цена указана за кровать; размер и комплектацию уточняйте у менеджера.","size":"","kind":"single"},{"id":"bed-imperial","cat":"bed","name":"«Imperial»","style":"Кровать","img":"img/bed-imperial.jpg","price":490000,"mat":"Кровать","desc":"Кровать из каталога VELARIO 2026. Цена указана за кровать; размер и комплектацию уточняйте у менеджера.","size":"","kind":"single"},{"id":"bed-imperial-90","cat":"bed","name":"«Imperial»","style":"Кровать 90 см","img":"img/bed-imperial-90.jpg","price":400000,"mat":"Ширина 90 см","desc":"Кровать из каталога VELARIO 2026. Цена указана за кровать; размер и комплектацию уточняйте у менеджера.","size":"Ширина 90 см","kind":"single"},{"id":"chair-leo","cat":"chair","name":"«Leo»","style":"Обеденный стул","img":"img/chair-leo.jpg","price":72000,"mat":"Обеденный стул","desc":"Стул из каталога VELARIO 2026 — можно подобрать к любому столу из коллекции. Цена за один стул.","size":"","kind":"single"},{"id":"chair-tesla","cat":"chair","name":"«Tesla»","style":"Обеденный стул","img":"img/chair-tesla.jpg","price":72000,"mat":"Обеденный стул","desc":"Стул из каталога VELARIO 2026 — можно подобрать к любому столу из коллекции. Цена за один стул.","size":"","kind":"single"},{"id":"chair-omega","cat":"chair","name":"«Omega»","style":"Обеденный стул","img":"img/chair-omega.jpg","price":59000,"mat":"Обеденный стул","desc":"Стул из каталога VELARIO 2026 — можно подобрать к любому столу из коллекции. Цена за один стул.","size":"","kind":"single"},{"id":"chair-enzo","cat":"chair","name":"«Enzo»","style":"Обеденный стул","img":"img/chair-enzo.jpg","price":72000,"mat":"Обеденный стул","desc":"Стул из каталога VELARIO 2026 — можно подобрать к любому столу из коллекции. Цена за один стул.","size":"","kind":"single"},{"id":"chair-verona","cat":"chair","name":"«Verona»","style":"Обеденный стул","img":"img/chair-verona.jpg","price":95000,"mat":"Обеденный стул","desc":"Стул из каталога VELARIO 2026 — можно подобрать к любому столу из коллекции. Цена за один стул.","size":"","kind":"single"},{"id":"chair-monica","cat":"chair","name":"«Monica»","style":"Обеденный стул","img":"img/chair-monica.jpg","price":55000,"mat":"Обеденный стул","desc":"Стул из каталога VELARIO 2026 — можно подобрать к любому столу из коллекции. Цена за один стул.","size":"","kind":"single"},{"id":"chair-toma","cat":"chair","name":"«Toma»","style":"Обеденный стул","img":"img/chair-toma.jpg","price":88000,"mat":"Обеденный стул","desc":"Стул из каталога VELARIO 2026 — можно подобрать к любому столу из коллекции. Цена за один стул.","size":"","kind":"single"},{"id":"chair-lux","cat":"chair","name":"«Lux»","style":"Обеденный стул","img":"img/chair-lux.jpg","price":58000,"mat":"Обеденный стул","desc":"Стул из каталога VELARIO 2026 — можно подобрать к любому столу из коллекции. Цена за один стул.","size":"","kind":"single"},{"id":"chair-aqua","cat":"chair","name":"«Aqua»","style":"Обеденный стул","img":"img/chair-aqua.jpg","price":65000,"mat":"Обеденный стул","desc":"Стул из каталога VELARIO 2026 — можно подобрать к любому столу из коллекции. Цена за один стул.","size":"","kind":"single"},{"id":"table-sofia","cat":"table","name":"«София Тумба»","style":"Обеденный стол","img":"img/table-sofia.jpg","price":290000,"mat":"2,00 × 2,50 м","desc":"Обеденный стол из каталога VELARIO 2026. Стулья подбираются отдельно — спросите менеджера о комплекте.","size":"2,00 × 2,50 м","kind":"single"},{"id":"table-tesla","cat":"table","name":"«Тесла Тумба»","style":"Обеденный стол","img":"img/table-tesla.jpg","price":280000,"mat":"1,80 × 2,40 м","desc":"Обеденный стол из каталога VELARIO 2026. Стулья подбираются отдельно — спросите менеджера о комплекте.","size":"1,80 × 2,40 м","kind":"single"},{"id":"table-polo","cat":"table","name":"«Поло»","style":"Обеденный стол","img":"img/table-polo.jpg","price":220000,"mat":"1,50 × 2,00 м","desc":"Обеденный стол из каталога VELARIO 2026. Стулья подбираются отдельно — спросите менеджера о комплекте.","size":"1,50 × 2,00 м","kind":"single"},{"id":"table-milano","cat":"table","name":"«Милано»","style":"Обеденный стол","img":"img/table-milano.jpg","price":220000,"mat":"1,50 × 2,00 м","desc":"Обеденный стол из каталога VELARIO 2026. Стулья подбираются отдельно — спросите менеджера о комплекте.","size":"1,50 × 2,00 м","kind":"single"},{"id":"table-praga","cat":"table","name":"«Прага»","style":"Обеденный стол","img":"img/table-praga.jpg","price":220000,"mat":"1,50 × 2,00 м","desc":"Обеденный стол из каталога VELARIO 2026. Стулья подбираются отдельно — спросите менеджера о комплекте.","size":"1,50 × 2,00 м","kind":"single"},{"id":"table-senator","cat":"table","name":"«Сенатор»","style":"Обеденный стол","img":"img/table-senator.jpg","price":550000,"mat":"2,50 м","desc":"Обеденный стол из каталога VELARIO 2026. Стулья подбираются отдельно — спросите менеджера о комплекте.","size":"2,50 м","kind":"single"},{"id":"table-dn-2","cat":"table","name":"«День и ночь»","style":"Обеденный стол","img":"img/table-dn-2.jpg","price":300000,"mat":"2,00 м, не раздвижной","desc":"Обеденный стол из каталога VELARIO 2026. Стулья подбираются отдельно — спросите менеджера о комплекте.","size":"2,00 м, не раздвижной","kind":"single"},{"id":"table-neo","cat":"table","name":"«Нео»","style":"Обеденный стол","img":"img/table-neo.jpg","price":260000,"mat":"2,00 м","desc":"Обеденный стол из каталога VELARIO 2026. Стулья подбираются отдельно — спросите менеджера о комплекте.","size":"2,00 м","kind":"single"},{"id":"table-dn-3","cat":"table","name":"«День и ночь»","style":"Обеденный стол","img":"img/table-dn-3.jpg","price":420000,"mat":"2,50–3,00 м","desc":"Обеденный стол из каталога VELARIO 2026. Стулья подбираются отдельно — спросите менеджера о комплекте.","size":"2,50–3,00 м","kind":"single"}];
   const byId = Object.fromEntries(products.map(p => [p.id, p]));
-  const catNames = {living:'Гостиная', bedroom:'Спальня', kitchen:'Кухня', kids:'Детская'};
+  const catNames = {bedroom:'Спальня', sofa:'Диван', living:'Гостиная', bed:'Кровать', table:'Стол', chair:'Стул'};
+  const fmt = n => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₸';
+  const K = n => n * 1000;
+  const minMod = p => Math.min.apply(null, p.mods.map(m => m[1]));
+  const priceText = p => p.price ? fmt(p.price) : 'от ' + fmt(K(minMod(p))) + ' за модуль';
+  const sel = {};   /* выбор клиента: {add:{i:1}, qty:{i:n}} */
+  const selOf = id => (sel[id] = sel[id] || {add:{}, qty:{}});
+  function calc(p){
+    const s = selOf(p.id); let total = 0, lines = [];
+    if(p.kind === 'mods'){
+      p.mods.forEach((m,i) => { const q = s.qty[i]||0; if(q){ total += q*K(m[1]); lines.push(`${m[0].replace(/^[A-Z0-9 /]+ — /,'')} ×${q}`); } });
+    } else {
+      total = p.price||0;
+      (p.add||[]).forEach((a,i) => { if(s.add[i]){ total += K(a[1]); lines.push(a[0]); } });
+    }
+    return {total, lines};
+  }
 
   /* ---------- State ---------- */
   let favs = new Set((store.get('velario_favs', [])).filter(id => byId[id]));
@@ -442,19 +435,19 @@ tailwind.config = {
     const list = products.filter(p =>
       (state.cat === 'all' || p.cat === state.cat) &&
       (!state.onlyFav || favs.has(p.id)) &&
-      (!q || (p.name + ' ' + p.style + ' ' + p.mat + ' ' + catNames[p.cat] + ' ' + p.desc).toLowerCase().includes(q)));
+      (!q || (p.name + ' ' + p.style + ' ' + p.mat + ' ' + catNames[p.cat] + ' ' + p.desc + ' ' + p.size).toLowerCase().includes(q)));
     $('#resultNote').textContent = list.length ? `Показано: ${list.length} из ${products.length}` : '';
     if(!list.length){
       grid.innerHTML = `<div class="col-span-full text-center py-16 fade-step">
         <p class="font-serif text-3xl">${state.onlyFav && !favs.size ? 'В подборке пока пусто' : 'Ничего не найдено'}</p>
         <p class="text-ink/55 font-light mt-3">${state.onlyFav && !favs.size ? 'Нажмите ♥ на карточке, чтобы добавить модель.' : 'Попробуйте другой запрос — или напишите нам, подберём индивидуально.'}</p>
-        <a data-wa="${esc(HELLO + '. Не нашёл(а) нужную модель в каталоге: ' + state.q)}" target="_blank" rel="noopener" class="inline-block mt-6 btn-wine px-7 py-3 text-[.7rem] uppercase tracking-[.18em]">Написать менеджеру</a></div>`;
+        <a data-wa="${esc(HELLO + '. Не нашёл(а) нужную модель в каталоге: ' + state.q)}" target="_blank" rel="noopener" class="inline-block mt-6 btn-wine px-7 py-3 text-[.72rem] uppercase tracking-[.18em]">Написать менеджеру</a></div>`;
       bindWA(grid); return;
     }
     grid.innerHTML = list.map(p => `
       <article class="card relative ${keepScroll ? '' : 'fade-step'} flex flex-col">
-        <div class="relative aspect-[4/5] overflow-hidden ph-fallback cursor-pointer" data-open="${p.id}" role="button" tabindex="0" aria-label="Подробнее: ${esc(plain(p.name))}">
-          <img src="${p.img}" alt="${esc(p.name)}" loading="lazy" class="ph w-full h-full object-cover" onerror="this.style.display='none'">
+        <div class="relative aspect-[4/3] overflow-hidden ph-fallback cursor-pointer" data-open="${p.id}" role="button" tabindex="0" aria-label="Подробнее: ${esc(plain(p.name))}">
+          <img src="${p.img}" alt="${esc(p.name)}" loading="lazy" class="ph w-full h-full object-cover" style="object-position:center 55%" onerror="this.style.display='none'">
           <div class="frame"></div>
           <span class="absolute bottom-3 left-3 bg-cream/95 text-wine text-[.6rem] uppercase tracking-[.2em] px-3 py-1.5">${catNames[p.cat]}</span>
         </div>
@@ -462,10 +455,11 @@ tailwind.config = {
         <div class="pt-5 flex flex-col flex-1">
           <h3 class="font-serif text-[1.6rem] leading-tight cursor-pointer hover:text-wine transition" data-open="${p.id}">${p.name}</h3>
           <p class="text-[.72rem] uppercase tracking-[.16em] text-wine mt-2">${p.style}</p>
-          <p class="text-sm text-ink/60 font-light mt-2 leading-relaxed flex-1">${p.mat}</p>
-          <div class="mt-4 flex items-center justify-between gap-3 text-[.72rem] font-medium">
-            <button type="button" data-open="${p.id}" class="border-b border-ink/30 hover:border-wine pb-1 transition">Подробнее</button>
-            <a target="_blank" rel="noopener" data-wa="${esc(`Здравствуйте! Пишу с сайта Velario. Интересует «${plain(p.name)}» (${p.style}). Подскажите стоимость и наличие, пожалуйста.`)}" class="border-b border-gold pb-1 hover:text-wine transition">Узнать цену →</a>
+          <p class="text-sm text-ink/60 font-light mt-2 leading-relaxed flex-1">${p.size && p.cat==='table' ? p.size : p.mat}</p>
+          <p class="font-serif text-2xl mt-3">${priceText(p)}</p>
+          <div class="mt-3 flex items-center justify-between gap-3 text-[.72rem] font-medium">
+            <button type="button" data-open="${p.id}" class="border-b border-ink/30 hover:border-wine pb-1 transition">${p.kind==='mods' ? 'Собрать и рассчитать' : 'Подробнее'}</button>
+            <a target="_blank" rel="noopener" data-wa="${esc(`Здравствуйте! Пишу с сайта Velario. Интересует «${plain(p.name)}» (${p.style}), ${priceText(p)}. Подскажите наличие и сроки, пожалуйста.`)}" class="border-b border-gold pb-1 hover:text-wine transition">Заказать →</a>
           </div>
         </div>
       </article>`).join('');
@@ -504,12 +498,18 @@ tailwind.config = {
   document.addEventListener('click', e => { if(e.target.closest('[data-close]')) closeOverlays(); });
   document.addEventListener('keydown', e => { if(e.key === 'Escape') closeOverlays(); });
 
+
   /* ---------- Product modal ---------- */
-  const chosen = {};
   function modalMsg(p){
-    const o = (chosen[p.id] || {});
-    const parts = p.opts.map(x => o[x.k] ? `${x.k}: ${o[x.k]}` : null).filter(Boolean);
-    return `Здравствуйте! Пишу с сайта Velario. Интересует «${plain(p.name)}» (${p.style}).` + (parts.length ? ` Выбрано — ${parts.join('; ')}.` : '') + ' Подскажите стоимость, наличие и сроки, пожалуйста.';
+    const c = calc(p);
+    let t = `Здравствуйте! Пишу с сайта Velario. Интересует «${plain(p.name)}» (${p.style}).`;
+    if(p.kind === 'mods'){
+      t += c.lines.length ? ` Конфигурация: ${c.lines.join(', ')}. Ориентировочно ${fmt(c.total)}.` : ' Помогите подобрать конфигурацию модулей.';
+    } else {
+      t += ` Цена по каталогу: ${fmt(p.price)}.`;
+      if(c.lines.length) t += ` Дополнительно: ${c.lines.join(', ')}. Итого ориентировочно ${fmt(c.total)}.`;
+    }
+    return t + ' Подскажите наличие, сроки и доставку, пожалуйста.';
   }
   function syncModalFav(id){
     const b = $('#modalFav'); if(!b || b.dataset.id !== id) return;
@@ -518,13 +518,31 @@ tailwind.config = {
   }
   function openModal(id){
     const p = byId[id]; if(!p) return;
-    chosen[id] = chosen[id] || {}; p.opts.forEach(x => { if(!chosen[id][x.k]) chosen[id][x.k] = x.v[0]; });
+    const s = selOf(id);
     const idx = products.findIndex(x => x.id === id);
     const box = $('#modalBox');
+    const row = (a,b) => `<div class="flex justify-between gap-4 py-2 border-b border-ink/10 text-sm"><span>${a}</span><span class="text-ink/60 whitespace-nowrap">${b}</span></div>`;
+    let body = '';
+    if(p.kind === 'set'){
+      body += `<div class="mt-5"><div class="text-[.66rem] uppercase tracking-[.2em] text-ink/50 mb-1">Состав комплекта</div>` +
+        p.inc.map(i => row(i[0], i[1] ? fmt(K(i[1])) : '')).join('') + `</div>`;
+      if(p.add.length) body += `<div class="mt-5"><div class="text-[.66rem] uppercase tracking-[.2em] text-ink/50 mb-2">Добавить к заказу</div><div class="flex flex-wrap gap-2" data-add>` +
+        p.add.map((a,i) => `<button type="button" class="chip px-4 py-2 text-xs ${s.add[i]?'sel':''}" data-i="${i}">${a[0]} · +${fmt(K(a[1]))}</button>`).join('') + `</div></div>`;
+    } else if(p.kind === 'mods'){
+      body += `<div class="mt-5"><div class="text-[.66rem] uppercase tracking-[.2em] text-ink/50 mb-1">Модули — укажите количество</div>` +
+        p.mods.map((m,i) => `<div class="flex items-center justify-between gap-3 py-2 border-b border-ink/10 text-sm">
+          <div class="min-w-0"><div>${m[0]}</div><div class="text-ink/55 text-xs">${fmt(K(m[1]))}</div></div>
+          <div class="flex items-center gap-2 shrink-0" data-q="${i}">
+            <button type="button" class="chip w-8 h-8 text-base leading-none" data-d="-1" aria-label="Меньше">−</button>
+            <span class="w-5 text-center" data-n>${s.qty[i]||0}</span>
+            <button type="button" class="chip w-8 h-8 text-base leading-none" data-d="1" aria-label="Больше">+</button>
+          </div></div>`).join('') + `</div>`;
+    }
+    const totalLabel = p.kind === 'mods' ? 'Итого по выбранным модулям' : (p.add && p.add.length ? 'Итого' : 'Цена');
     box.innerHTML = `
       <button data-close class="absolute top-3 right-3 z-10 w-10 h-10 bg-ink/80 text-milk text-2xl hover:text-gold" aria-label="Закрыть">×</button>
-      <div class="relative aspect-[4/5] sm:aspect-auto sm:min-h-[520px] ph-fallback">
-        <img src="${p.img.replace('w=900','w=1200')}" alt="${esc(p.name)}" class="absolute inset-0 w-full h-full object-cover" onerror="this.style.display='none'">
+      <div class="relative aspect-[4/3] sm:aspect-auto sm:min-h-[520px]" style="background:#ece7de">
+        <img src="${p.img}" alt="${esc(p.name)}" class="absolute inset-0 w-full h-full object-contain" onerror="this.style.display='none'">
         <span class="absolute top-4 left-4 bg-graphite/85 text-gold text-[.6rem] uppercase tracking-[.2em] px-3 py-1.5">${catNames[p.cat]}</span>
       </div>
       <div class="p-7 sm:p-9 flex flex-col">
@@ -532,15 +550,12 @@ tailwind.config = {
         <h3 class="font-serif text-3xl sm:text-4xl mt-2 leading-tight">${p.name}</h3>
         <div class="gold-line my-5"></div>
         <p class="text-sm text-ink/70 font-light leading-relaxed">${p.desc}</p>
-        <dl class="mt-5 text-sm space-y-2">
-          <div class="flex gap-3"><dt class="w-24 shrink-0 text-ink/45">Материалы</dt><dd>${p.mat}</dd></div>
-          <div class="flex gap-3"><dt class="w-24 shrink-0 text-ink/45">Размеры</dt><dd>${p.size}</dd></div>
-        </dl>
-        ${p.opts.map(x => `<div class="mt-5"><div class="text-[.66rem] uppercase tracking-[.2em] text-ink/50 mb-2">${x.k}</div>
-          <div class="flex flex-wrap gap-2" data-opt="${x.k}">${x.v.map(v => `<button type="button" class="chip px-4 py-2 text-xs ${chosen[id][x.k]===v?'sel':''}" data-v="${esc(v)}">${v}</button>`).join('')}</div></div>`).join('')}
-        <p class="text-xs text-ink/45 mt-5">Цена зависит от комплектации и ткани — уточните у менеджера.</p>
-        <div class="mt-6 grid gap-3 pt-2">
-          <a id="modalWA" target="_blank" rel="noopener" class="btn-wine text-center px-6 py-4 text-[.72rem] uppercase tracking-[.2em] font-medium">Узнать стоимость в WhatsApp</a>
+        ${p.size ? `<p class="text-sm mt-3"><span class="text-ink/45">Размер:</span> ${p.size}</p>` : ''}
+        ${body}
+        <div class="mt-5 flex items-baseline justify-between gap-3"><span class="text-[.66rem] uppercase tracking-[.2em] text-ink/50">${totalLabel}</span><span id="modalTotal" class="font-serif text-3xl"></span></div>
+        <p class="text-xs text-ink/45 mt-2">Цены по прайсу 2026 года. Наличие, сроки и итоговую стоимость подтвердит менеджер.</p>
+        <div class="mt-5 grid gap-3 pt-2">
+          <a id="modalWA" target="_blank" rel="noopener" class="btn-wine text-center px-6 py-4 text-[.72rem] uppercase tracking-[.2em] font-medium">Заказать в WhatsApp</a>
           <button type="button" id="modalFav" data-id="${id}" class="heart ${favs.has(id)?'on':''} border border-ink/25 hover:border-gold px-6 py-3 text-[.68rem] uppercase tracking-[.18em] flex items-center justify-center gap-2">${heartSvg}<span id="modalFavText">${favs.has(id)?'В подборке':'В подборку'}</span></button>
         </div>
         <div class="mt-auto pt-6 flex justify-between text-[.64rem] uppercase tracking-[.18em] text-ink/45">
@@ -548,12 +563,18 @@ tailwind.config = {
           <button type="button" data-nav="${(idx+1)%products.length}" class="hover:text-wine">Следующая →</button>
         </div>
       </div>`;
-    const refresh = () => { $('#modalWA').href = WA(modalMsg(p)); };
+    const refresh = () => {
+      const c = calc(p);
+      $('#modalTotal').textContent = (p.kind === 'mods' && !c.lines.length) ? 'выберите модули' : fmt(c.total);
+      if(p.kind === 'mods' && !c.lines.length) $('#modalTotal').classList.add('text-xl'); else $('#modalTotal').classList.remove('text-xl');
+      $('#modalWA').href = WA(modalMsg(p));
+    };
     refresh();
-    $$('[data-opt]', box).forEach(g => g.addEventListener('click', e => {
-      const c = e.target.closest('.chip'); if(!c) return;
-      $$('.chip', g).forEach(x => x.classList.remove('sel')); c.classList.add('sel');
-      chosen[id][g.dataset.opt] = c.dataset.v; refresh();
+    const ga = $('[data-add]', box);
+    if(ga) ga.addEventListener('click', e => { const c = e.target.closest('.chip'); if(!c) return; const i = c.dataset.i; s.add[i] = s.add[i] ? 0 : 1; c.classList.toggle('sel', !!s.add[i]); refresh(); });
+    $$('[data-q]', box).forEach(g => g.addEventListener('click', e => {
+      const b = e.target.closest('[data-d]'); if(!b) return;
+      const i = g.dataset.q; s.qty[i] = Math.max(0, Math.min(9, (s.qty[i]||0) + (+b.dataset.d))); $('[data-n]', g).textContent = s.qty[i]; refresh();
     }));
     $('#modalFav').addEventListener('click', () => toggleFav(id));
     $$('[data-nav]', box).forEach(b => b.addEventListener('click', () => openModal(products[+b.dataset.nav].id)));
@@ -581,7 +602,7 @@ tailwind.config = {
   $('#drawerSend').addEventListener('click', () => {
     if(!favs.size) return;
     const name = $('#drawerName').value.trim();
-    const lines = Array.from(favs).map((id,i) => `${i+1}. ${plain(byId[id].name)} (${byId[id].style})`).join('\n');
+    const lines = Array.from(favs).map((id,i) => `${i+1}. ${plain(byId[id].name)} (${byId[id].style}, ${priceText(byId[id])})`).join('\n');
     openWA(`Здравствуйте!${name ? ' Меня зовут ' + name + '.' : ''} Пишу с сайта Velario. Меня заинтересовали модели:\n${lines}\nПодскажите стоимость, наличие и сроки, пожалуйста.`);
     toast('Открываем WhatsApp — осталось нажать «Отправить»');
   });
@@ -590,7 +611,7 @@ tailwind.config = {
   /* ---------- Quiz ---------- */
   const quiz = {step:1, room:null, when:null};
   const qbody = $('#qbody'), qbar = $('#qbar'), qstep = $('#qstep'), qback = $('#qback');
-  const rooms = ['Спальня','Гостиная','Кухня','Весь дом'];
+  const rooms = ['Спальня','Гостиная / диван','Столовая (стол и стулья)','Весь дом'];
   const whens = ['Срочно','В течение месяца','На этапе ремонта'];
   function renderQuiz(){
     qbar.style.width = (quiz.step/3*100) + '%';
