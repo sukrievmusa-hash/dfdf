@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лапки & Хвосты — интернет-зоомагазин</title>
+<meta name="description" content="Корма, игрушки, лежанки и аксессуары для собак, кошек, грызунов, птиц и рыбок. Доставка по городу в день заказа.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FFF6EA; --paper:#FFFFFF; --ink:#1E2A23; --muted:#6B746E;
+  --orange:#FF7A45; --orange-d:#E85F2A; --yellow:#FFC94A; --green:#2F6B4F;
+  --mint:#CDEBDC; --pink:#FFD3C7; --sky:#CFE6F5; --line:#F0E3D2;
+  --r:26px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:Manrope,system-ui,sans-serif;background:var(--cream);color:var(--ink);line-height:1.55;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+img{display:block;max-width:100%}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+h1,h2,h3,.display{font-family:Unbounded,Manrope,sans-serif;letter-spacing:-.02em;line-height:1.08}
+
+/* ---------- Header ---------- */
+header{position:sticky;top:0;z-index:60;transition:.3s}
+header.scrolled{background:rgba(255,246,234,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 6px 24px rgba(30,42,35,.06)}
+.nav{display:flex;align-items:center;gap:26px;height:80px}
+.logo{display:flex;align-items:center;gap:10px;font-family:Unbounded;font-weight:700;font-size:20px;white-space:nowrap}
+.logo-mark{width:44px;height:44px;border-radius:14px;background:var(--orange);display:grid;place-items:center;transform:rotate(-8deg);transition:.3s;box-shadow:0 6px 0 var(--ink)}
+.logo:hover .logo-mark{transform:rotate(8deg) scale(1.05)}
+.logo-mark svg{width:26px;height:26px;fill:#fff}
+.menu{display:flex;gap:6px;font-weight:600;font-size:15px}
+.menu a{padding:9px 14px;border-radius:99px;transition:.2s}
+.menu a:hover{background:var(--paper)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.phone{font-weight:700;font-size:15px}
+.cart-btn{position:relative;height:48px;padding:0 18px 0 16px;border-radius:99px;background:var(--ink);color:#fff;display:flex;align-items:center;gap:8px;font-weight:700;transition:.2s}
+.cart-btn:hover{background:var(--orange);transform:translateY(-2px)}
+.cart-btn svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2}
+.badge{min-width:24px;height:24px;border-radius:99px;background:var(--yellow);color:var(--ink);font-size:13px;display:grid;place-items:center;padding:0 6px}
+.badge.bump{animation:bump .45s}
+@keyframes bump{40%{transform:scale(1.5) rotate(-10deg)}}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;padding:30px 0 70px}
+.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center}
+.sticker{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:2px solid var(--ink);border-radius:99px;padding:7px 16px 7px 8px;font-weight:700;font-size:14px;box-shadow:4px 4px 0 var(--ink);margin-bottom:26px}
+.sticker i{width:26px;height:26px;border-radius:50%;background:var(--mint);display:grid;place-items:center;font-style:normal;animation:wag 1.4s ease-in-out infinite}
+@keyframes wag{50%{transform:rotate(18deg)}}
+.hero h1{font-size:clamp(40px,5.4vw,74px);font-weight:800;margin-bottom:24px}
+.hl{position:relative;display:inline-block;color:var(--orange)}
+.hl svg{position:absolute;left:-4px;right:-4px;bottom:-14px;width:calc(100% + 8px);height:20px}
+.hl path{stroke:var(--yellow);stroke-width:7;fill:none;stroke-linecap:round;stroke-dasharray:400;stroke-dashoffset:400;animation:draw 1.2s .5s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.lead{font-size:19px;color:#3d4842;max-width:520px;margin-bottom:32px}
+.btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:17px 28px;border-radius:99px;font-weight:800;font-size:16px;transition:.2s;border:2px solid var(--ink)}
+.btn-main{background:var(--orange);color:#fff;box-shadow:5px 5px 0 var(--ink)}
+.btn-main:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+.btn-main:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
+.btn-line{background:var(--paper)}
+.btn-line:hover{background:var(--ink);color:#fff}
+.stats{display:flex;gap:16px;margin-top:40px;flex-wrap:wrap}
+.stat{background:var(--paper);border-radius:20px;padding:14px 20px;border:1px solid var(--line)}
+.stat b{display:block;font-family:Unbounded;font-size:24px}
+.stat span{font-size:14px;color:var(--muted)}
+
+.collage{position:relative;height:560px}
+.ph{position:absolute;overflow:hidden;border:4px solid #fff;box-shadow:0 24px 50px rgba(30,42,35,.18)}
+.ph img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.ph:hover img{transform:scale(1.07)}
+.ph1{width:68%;height:72%;top:0;right:0;border-radius:200px 200px 30px 30px;animation:bob 7s ease-in-out infinite}
+.ph2{width:44%;height:44%;bottom:0;left:0;border-radius:30px 140px 30px 30px;animation:bob 7s -2.5s ease-in-out infinite}
+.ph3{width:36%;height:36%;bottom:4%;right:6%;border-radius:50%;animation:bob 7s -5s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-12px)}}
+.blob-bg{position:absolute;z-index:-1;border-radius:50%;filter:blur(2px)}
+.bb1{width:340px;height:340px;background:var(--yellow);top:30px;left:10%;opacity:.55;animation:morph 10s ease-in-out infinite}
+.bb2{width:220px;height:220px;background:var(--mint);bottom:-10px;right:-20px;opacity:.9;animation:morph 12s -3s ease-in-out infinite}
+@keyframes morph{0%,100%{border-radius:42% 58% 63% 37%/45% 40% 60% 55%}50%{border-radius:60% 40% 38% 62%/55% 62% 38% 45%}}
+.round-badge{position:absolute;top:44%;left:8%;width:128px;height:128px;z-index:3;animation:spin 16s linear infinite}
+.round-badge text{font-family:Unbounded;font-size:11.5px;font-weight:700;letter-spacing:2.6px;fill:var(--ink)}
+.round-core{position:absolute;top:44%;left:8%;width:128px;height:128px;display:grid;place-items:center;z-index:4;pointer-events:none}
+.round-core span{width:64px;height:64px;border-radius:50%;background:var(--orange);display:grid;place-items:center;font-size:28px;border:3px solid var(--ink)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.chat{position:absolute;z-index:5;background:#fff;border-radius:18px;padding:12px 16px;font-size:14px;font-weight:600;box-shadow:0 14px 30px rgba(30,42,35,.15);display:flex;align-items:center;gap:10px}
+.chat img{width:36px;height:36px;border-radius:50%;object-fit:cover}
+.chat small{display:block;font-weight:500;color:var(--muted);font-size:12px}
+.c1{top:6%;left:2%;animation:pop .6s .8s both, bob 6s 1.4s ease-in-out infinite}
+.c2{bottom:38%;right:-4%;animation:pop .6s 1.2s both, bob 6s 1.8s ease-in-out infinite}
+@keyframes pop{from{opacity:0;transform:scale(.6) translateY(20px)}}
+
+/* ---------- Marquee ---------- */
+.mq-wrap{overflow:hidden;padding:14px 0}
+.marquee{background:var(--ink);color:#fff;transform:rotate(-1.5deg);margin:0 -20px;padding:16px 0;overflow:hidden;border-top:3px solid var(--orange);border-bottom:3px solid var(--orange)}
+.track{display:flex;gap:44px;width:max-content;animation:scroll 32s linear infinite;font-family:Unbounded;font-weight:700;font-size:20px;white-space:nowrap}
+.track span{display:flex;align-items:center;gap:44px}
+.track span::after{content:"✦";color:var(--yellow)}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* ---------- About (short info) ---------- */
+.about{padding:96px 0 40px}
+.about-grid{display:grid;grid-template-columns:1fr 1.25fr;gap:56px;align-items:start}
+.kicker{font-weight:800;color:var(--orange);text-transform:uppercase;letter-spacing:.14em;font-size:13px;margin-bottom:14px;display:block}
+.about h2{font-size:clamp(30px,3.6vw,46px)}
+.about p.txt{font-size:18px;color:#3d4842;margin-bottom:18px}
+.perks{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:10px}
+.perk{background:var(--paper);border-radius:var(--r);padding:22px;border:1px solid var(--line);transition:.25s}
+.perk:hover{transform:translateY(-5px) rotate(-.6deg);box-shadow:0 16px 30px rgba(30,42,35,.08)}
+.perk .ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:26px;margin-bottom:12px}
+.perk h3{font-size:16px;margin-bottom:4px;font-family:Manrope;font-weight:800;letter-spacing:0}
+.perk p{font-size:14.5px;color:var(--muted)}
+
+/* ---------- Catalog ---------- */
+.catalog{padding:60px 0 100px}
+.cat-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:28px}
+.cat-head h2{font-size:clamp(32px,4vw,54px)}
+.tools{display:flex;gap:10px;flex-wrap:wrap}
+.search{display:flex;align-items:center;gap:8px;background:var(--paper);border:2px solid var(--ink);border-radius:99px;padding:11px 18px;min-width:250px}
+.search input{border:0;outline:none;background:none;font:inherit;width:100%}
+.search svg{width:18px;height:18px;stroke:var(--ink);fill:none;stroke-width:2.2;flex:none}
+select.sort{border:2px solid var(--ink);background:var(--paper);border-radius:99px;padding:11px 18px;font:inherit;font-weight:600;outline:none;cursor:pointer}
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:34px}
+.chip{display:flex;align-items:center;gap:8px;padding:10px 18px 10px 10px;border-radius:99px;background:var(--paper);border:2px solid transparent;font-weight:700;transition:.2s}
+.chip img{width:34px;height:34px;border-radius:50%;object-fit:cover}
+.chip .all{width:34px;height:34px;border-radius:50%;background:var(--yellow);display:grid;place-items:center}
+.chip:hover{border-color:var(--ink)}
+.chip.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.chip small{opacity:.55;font-weight:600}
+
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.card{background:var(--paper);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s;border:1px solid var(--line);cursor:pointer;position:relative}
+.card:hover{transform:translateY(-8px);box-shadow:0 24px 44px rgba(30,42,35,.13)}
+.card-img{position:relative;aspect-ratio:1/1;overflow:hidden;background:var(--pink)}
+.card-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.card:hover .card-img img{transform:scale(1.08)}
+.tag{position:absolute;top:14px;left:14px;padding:6px 12px;border-radius:99px;font-size:12px;font-weight:800;background:#fff;z-index:2}
+.tag.sale{background:var(--orange);color:#fff}
+.tag.new{background:var(--green);color:#fff}
+.tag.hit{background:var(--yellow)}
+.fav{position:absolute;top:12px;right:12px;width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center;z-index:2;transition:.2s}
+.fav svg{width:20px;height:20px;stroke:var(--ink);stroke-width:2;fill:none;transition:.2s}
+.fav.on svg{fill:var(--orange);stroke:var(--orange)}
+.fav:hover{transform:scale(1.12)}
+.fav.on{animation:heart .4s}
+@keyframes heart{50%{transform:scale(1.35)}}
+.quick{position:absolute;left:12px;right:12px;bottom:12px;background:rgba(255,255,255,.95);border-radius:99px;padding:10px;text-align:center;font-weight:700;font-size:14px;transform:translateY(70px);transition:.3s;z-index:2}
+.card:hover .quick{transform:none}
+.card-body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:7px;flex:1}
+.meta{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);font-weight:600}
+.meta b{color:var(--ink)}
+.card h3{font-family:Manrope;font-weight:800;font-size:17px;letter-spacing:0;line-height:1.3}
+.card p{font-size:14px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-foot{margin-top:auto;padding-top:10px;display:flex;justify-content:space-between;align-items:center}
+.price{font-family:Unbounded;font-weight:700;font-size:20px}
+.price s{display:block;font-family:Manrope;font-size:13px;color:var(--muted);font-weight:600}
+.add{width:48px;height:48px;border-radius:16px;background:var(--orange);color:#fff;display:grid;place-items:center;transition:.2s;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink)}
+.add svg{width:22px;height:22px;stroke:#fff;stroke-width:2.6;fill:none}
+.add:hover{transform:translate(-2px,-2px) rotate(-6deg);box-shadow:5px 5px 0 var(--ink)}
+.add.done{background:var(--green)}
+.empty-state{grid-column:1/-1;text-align:center;padding:60px 0;color:var(--muted);font-weight:600}
+.empty-state div{font-size:54px;margin-bottom:8px}
+
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .7s,transform .7s}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- CTA + Footer ---------- */
+.cta{background:var(--green);color:#fff;border-radius:36px;padding:56px;display:grid;grid-template-columns:1.3fr 1fr;gap:30px;align-items:center;overflow:hidden;position:relative;margin-bottom:80px}
+.cta h2{font-size:clamp(28px,3.2vw,42px);margin-bottom:12px}
+.cta p{opacity:.9;font-size:17px;margin-bottom:24px;max-width:520px}
+.cta .btn-main{border-color:#fff;box-shadow:5px 5px 0 #133a29}
+.cta-img{height:280px;border-radius:200px 200px 24px 24px;overflow:hidden;border:4px solid #fff;transform:rotate(3deg)}
+.cta-img img{width:100%;height:100%;object-fit:cover}
+.paws{position:absolute;inset:0;pointer-events:none;opacity:.12;font-size:40px}
+footer{background:var(--ink);color:#cfd6d1;padding:60px 0 26px}
+.foot{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:30px;margin-bottom:36px}
+footer h4{color:#fff;font-family:Unbounded;font-size:15px;margin-bottom:14px}
+footer a,footer p{display:block;margin-bottom:8px;font-size:15px;color:#aeb8b1}
+footer a:hover{color:var(--yellow)}
+footer .logo{color:#fff;margin-bottom:14px}
+footer .logo-mark{box-shadow:0 6px 0 #000}
+.copy{border-top:1px solid #34423a;padding-top:20px;font-size:13px;color:#7f8c84;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+/* ---------- Modal ---------- */
+.overlay{position:fixed;inset:0;background:rgba(20,28,24,.5);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:.3s;z-index:90}
+.overlay.open{opacity:1;pointer-events:auto}
+.modal{position:fixed;left:50%;top:50%;width:min(920px,94vw);max-height:90vh;overflow:auto;background:var(--paper);border-radius:30px;z-index:100;display:grid;grid-template-columns:1fr 1fr;transform:translate(-50%,-46%) scale(.94);opacity:0;pointer-events:none;transition:.35s}
+.modal.open{transform:translate(-50%,-50%);opacity:1;pointer-events:auto}
+.m-img{min-height:420px;background:var(--pink)}
+.m-img img{width:100%;height:100%;object-fit:cover}
+.m-body{padding:36px 34px;display:flex;flex-direction:column;gap:12px}
+.m-body h3{font-size:26px}
+.m-body .desc{color:#3d4842}
+.feats{list-style:none;display:grid;gap:8px;margin:4px 0}
+.feats li{display:flex;gap:10px;font-size:15px}
+.feats li::before{content:"";flex:none;width:20px;height:20px;border-radius:50%;background:var(--mint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12l4 4 8-8' stroke='%232F6B4F' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") center/14px no-repeat;margin-top:2px}
+.m-buy{display:flex;align-items:center;gap:14px;margin-top:auto;padding-top:14px;flex-wrap:wrap}
+.m-buy .price{font-size:26px;margin-right:auto}
+.m-buy .btn{flex:1;justify-content:center;min-width:180px}
+.stepper{display:flex;align-items:center;border:2px solid var(--ink);border-radius:99px;height:52px}
+.stepper button{width:44px;height:100%;font-size:20px;font-weight:700}
+.stepper span{min-width:28px;text-align:center;font-weight:800}
+.x{position:absolute;top:14px;right:14px;width:42px;height:42px;border-radius:50%;background:#fff;font-size:24px;line-height:1;z-index:3;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+
+/* ---------- Cart ---------- */
+.drawer{position:fixed;top:0;right:0;width:min(440px,100%);height:100%;background:var(--cream);z-index:110;transform:translateX(105%);transition:.4s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column}
+.drawer.open{transform:none}
+.d-head{display:flex;justify-content:space-between;align-items:center;padding:24px}
+.d-head h3{font-size:24px}
+.d-head .x{position:static}
+.d-items{flex:1;overflow:auto;padding:0 24px}
+.line{display:grid;grid-template-columns:74px 1fr auto;gap:14px;align-items:center;background:#fff;border-radius:20px;padding:10px;margin-bottom:10px;animation:pop .35s}
+.line img{width:74px;height:74px;border-radius:14px;object-fit:cover}
+.line b{display:block;font-size:14px;line-height:1.3}
+.line small{color:var(--muted);font-weight:600}
+.mini{display:flex;align-items:center;gap:8px;margin-top:6px}
+.mini button{width:28px;height:28px;border-radius:50%;background:var(--cream);font-weight:800}
+.mini button:hover{background:var(--ink);color:#fff}
+.line-sum{font-weight:800;white-space:nowrap;padding-right:6px}
+.d-empty{text-align:center;padding:70px 10px;color:var(--muted);font-weight:600}
+.d-empty div{font-size:60px;animation:wag 1.6s ease-in-out infinite;display:inline-block}
+.d-foot{padding:22px 24px;background:#fff;border-radius:28px 28px 0 0;box-shadow:0 -10px 30px rgba(0,0,0,.05)}
+.ship{font-size:14px;font-weight:600;margin-bottom:8px}
+.bar{height:10px;background:var(--cream);border-radius:9px;overflow:hidden;margin-bottom:18px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--yellow),var(--orange));border-radius:9px;transition:.5s}
+.total{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;font-weight:700}
+.total b{font-family:Unbounded;font-size:26px}
+.d-foot .btn{width:100%;justify-content:center}
+
+/* fly-to-cart */
+.fly{position:fixed;z-index:200;width:70px;height:70px;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:0 10px 20px rgba(0,0,0,.2);pointer-events:none;transition:all .75s cubic-bezier(.5,-.3,.7,.9)}
+
+.toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,150px);background:var(--ink);color:#fff;padding:14px 24px;border-radius:99px;font-weight:700;z-index:220;transition:.4s;white-space:nowrap}
+.toast{opacity:0}
+.toast.show{transform:translate(-50%,0);opacity:1}
+
+/* ---------- Responsive ---------- */
+@media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}.menu{display:none}}
+@media(max-width:900px){
+  .hero-grid,.about-grid,.cta{grid-template-columns:1fr}
+  .collage{height:460px;max-width:560px;margin:0 auto;width:100%}
+  .phone{display:none}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .modal{grid-template-columns:1fr}
+  .m-img{min-height:0;height:300px}
+  .foot{grid-template-columns:1fr 1fr}
+  .cta-img{display:none}
+}
+@media(max-width:560px){
+  .wrap{padding:0 16px}
+  .nav{height:68px}
+  .logo{font-size:16px}
+  .logo-mark{width:38px;height:38px}
+  .cart-btn span.lbl{display:none}
+  .hero{padding:16px 0 50px}
+  .lead{font-size:16.5px}
+  .collage{height:380px}
+  .round-badge,.round-core{width:100px;height:100px;top:40%}
+  .round-core span{width:50px;height:50px;font-size:22px}
+  .c2{right:0}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .stat{padding:12px}
+  .stat b{font-size:17px}
+  .stat span{font-size:12px;line-height:1.3;display:block}
+  .btn{padding:15px 22px;font-size:15px}
+  .about{padding:70px 0 20px}
+  .perks{grid-template-columns:1fr}
+  .search{min-width:0;flex:1}
+  .tools{width:100%}
+  .chips{flex-wrap:nowrap;overflow-x:auto;margin:0 -16px 26px;padding:0 16px 6px;scrollbar-width:none}
+  .chip{flex:none}
+  .grid{gap:12px}
+  .card-body{padding:12px 12px 14px;gap:5px}
+  .card h3{font-size:14.5px}
+  .card p{display:none}
+  .meta{font-size:11.5px;flex-direction:column;gap:2px}
+  .price{font-size:16px}
+  .add{width:40px;height:40px;border-radius:13px}
+  .quick{display:none}
+  .fav{width:34px;height:34px}
+  .tag{font-size:11px;padding:5px 9px;top:10px;left:10px}
+  .cta{padding:34px 24px;border-radius:28px}
+  .foot{grid-template-columns:1fr}
+  .m-body{padding:24px 22px}
+}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a href="#" class="logo">
+      <span class="logo-mark"><svg viewBox="0 0 24 24"><ellipse cx="6" cy="9" rx="2.2" ry="2.8"/><ellipse cx="10" cy="5.5" rx="2.2" ry="2.8"/><ellipse cx="14.5" cy="5.5" rx="2.2" ry="2.8"/><ellipse cx="18.5" cy="9" rx="2.2" ry="2.8"/><path d="M12 11c-3 0-6 4.5-6 7 0 2 1.6 3 3.4 3 1.2 0 1.9-.6 2.6-.6s1.4.6 2.6.6c1.8 0 3.4-1 3.4-3 0-2.5-3-7-6-7z"/></svg></span>
+      Лапки &amp; Хвосты
+    </a>
+    <nav class="menu">
+      <a href="#about">О магазине</a>
+      <a href="#catalog">Каталог</a>
+      <a href="#delivery">Доставка</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <div class="nav-right">
+      <a class="phone" href="tel:+77000000000">+7 700 000 00 00</a>
+      <button class="cart-btn" id="cartBtn">
+        <svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"/><circle cx="10" cy="20.5" r="1.3"/><circle cx="17" cy="20.5" r="1.3"/></svg>
+        <span class="lbl">Корзина</span><span class="badge" id="count">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="sticker"><i>🐾</i>Зоомагазин с доставкой за 3 часа</span>
+      <h1>Всё, что нужно <span class="hl">питомцу<svg viewBox="0 0 300 20" preserveAspectRatio="none"><path d="M4 14 C 60 4, 120 4, 170 10 S 260 16, 296 6"/></svg></span>, — в один клик</h1>
+      <p class="lead">Корма, лакомства, игрушки, лежанки и аквариумы для собак, кошек, грызунов, птиц и рыбок. Подбираем товары под возраст и породу, привозим в день заказа.</p>
+      <div class="btns">
+        <a href="#catalog" class="btn btn-main">Перейти в каталог →</a>
+        <a href="#about" class="btn btn-line">О магазине</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><b data-count="12000" data-suffix="+">0</b><span>счастливых хвостов</span></div>
+        <div class="stat"><b data-count="1500" data-suffix="+">0</b><span>товаров в наличии</span></div>
+        <div class="stat"><b>4.9★</b><span>оценка покупателей</span></div>
+      </div>
+    </div>
+
+    <div class="collage">
+      <div class="blob-bg bb1"></div><div class="blob-bg bb2"></div>
+      <div class="ph ph1"><img src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=900&q=75&auto=format&fit=crop" alt="Собака и кошка обнимаются на траве"></div>
+      <div class="ph ph2"><img src="https://images.unsplash.com/photo-1586671267731-da2cf3ceeb80?w=600&q=75&auto=format&fit=crop" alt="Щенок лабрадора в ошейнике"></div>
+      <div class="ph ph3"><img src="https://images.unsplash.com/photo-1596854273338-cbf078ec7071?w=500&q=75&auto=format&fit=crop" alt="Рыже-белый кот облизывается"></div>
+      <svg class="round-badge" viewBox="0 0 128 128"><defs><path id="circ" d="M64,64 m-50,0 a50,50 0 1,1 100,0 a50,50 0 1,1 -100,0"/></defs><circle cx="64" cy="64" r="62" fill="#FFC94A" stroke="#1E2A23" stroke-width="3"/><text><textPath href="#circ">ДОСТАВКА СЕГОДНЯ • ДОСТАВКА СЕГОДНЯ •</textPath></text></svg>
+      <div class="round-core"><span>🚚</span></div>
+      <div class="chat c1"><img src="https://images.unsplash.com/photo-1591946614720-90a587da4a36?w=100&q=70&auto=format&fit=crop" alt=""><div>Новый слоник — мой!<small>Ричи, 2 года</small></div></div>
+      <div class="chat c2">🎁 <div>−15% на первый заказ<small>промокод LAPKI15</small></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="mq-wrap"><div class="marquee"><div class="track" id="track"></div></div></div>
+
+<!-- ============ ABOUT (короткое описание) ============ -->
+<section class="about" id="about">
+  <div class="wrap about-grid">
+    <div class="reveal">
+      <span class="kicker">О магазине</span>
+      <h2>Заботимся о питомцах так же, как о своих</h2>
+    </div>
+    <div class="reveal">
+      <p class="txt">«Лапки &amp; Хвосты» — интернет-зоомагазин, где можно за пару минут собрать всё нужное для любимца. В ассортименте только проверенные корма и аксессуары, а наши консультанты помогут выбрать рацион и не ошибиться с размером.</p>
+      <div class="perks" id="delivery">
+        <div class="perk"><div class="ic" style="background:var(--pink)">🚚</div><h3>Доставка за 3 часа</h3><p>По городу — в день заказа. Бесплатно от 15 000 ₸.</p></div>
+        <div class="perk"><div class="ic" style="background:var(--mint)">🩺</div><h3>Совет ветеринара</h3><p>Бесплатная консультация по питанию в WhatsApp.</p></div>
+        <div class="perk"><div class="ic" style="background:#FFEFC2">💳</div><h3>Kaspi и рассрочка</h3><p>Оплата Kaspi QR, картой или наличными курьеру.</p></div>
+        <div class="perk"><div class="ic" style="background:var(--sky)">↩️</div><h3>Обмен 14 дней</h3><p>Не подошёл размер или вкус — заменим без вопросов.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CATALOG ============ -->
+<section class="catalog" id="catalog">
+  <div class="wrap">
+    <div class="cat-head reveal">
+      <div><span class="kicker">Каталог</span><h2>Товары для любимцев</h2></div>
+      <div class="tools">
+        <label class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" placeholder="Найти корм, игрушку…" autocomplete="off"></label>
+        <select class="sort" id="sort">
+          <option value="pop">Популярные</option>
+          <option value="asc">Дешевле</option>
+          <option value="desc">Дороже</option>
+        </select>
+      </div>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta reveal">
+    <div class="paws">🐾</div>
+    <div>
+      <h2>Не знаете, какой корм выбрать?</h2>
+      <p>Напишите нам — консультант подберёт рацион под возраст, породу и особенности вашего питомца. Бесплатно и за 5 минут.</p>
+      <a href="#contacts" class="btn btn-main">Написать в WhatsApp</a>
+    </div>
+    <div class="cta-img"><img src="https://images.unsplash.com/photo-1601758065893-25c11bfa69b5?w=600&q=75&auto=format&fit=crop" alt="Кот на игровом комплексе" loading="lazy"></div>
+  </div>
+</section>
+
+<footer id="contacts">
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a href="#" class="logo"><span class="logo-mark"><svg viewBox="0 0 24 24"><ellipse cx="6" cy="9" rx="2.2" ry="2.8"/><ellipse cx="10" cy="5.5" rx="2.2" ry="2.8"/><ellipse cx="14.5" cy="5.5" rx="2.2" ry="2.8"/><ellipse cx="18.5" cy="9" rx="2.2" ry="2.8"/><path d="M12 11c-3 0-6 4.5-6 7 0 2 1.6 3 3.4 3 1.2 0 1.9-.6 2.6-.6s1.4.6 2.6.6c1.8 0 3.4-1 3.4-3 0-2.5-3-7-6-7z"/></svg></span>Лапки &amp; Хвосты</a>
+        <p>Интернет-зоомагазин. Всё для собак, кошек, грызунов, птиц и рыбок.</p>
+      </div>
+      <div><h4>Каталог</h4><a href="#catalog" data-go="dog">Собаки</a><a href="#catalog" data-go="cat">Кошки</a><a href="#catalog" data-go="rodent">Грызуны</a><a href="#catalog" data-go="bird">Птицы</a><a href="#catalog" data-go="fish">Рыбки</a></div>
+      <div><h4>Покупателям</h4><a href="#delivery">Доставка и оплата</a><a href="#delivery">Обмен и возврат</a><a href="#">Бонусы</a></div>
+      <div><h4>Контакты</h4><p>📍 ул. Примерная, 1</p><p>📞 +7 700 000 00 00</p><p>💬 WhatsApp · Instagram</p><p>🕘 Ежедневно 9:00–21:00</p></div>
+    </div>
+    <div class="copy"><span>© 2026 Лапки &amp; Хвосты</span><span>Фото: Unsplash</span></div>
+  </div>
+</footer>
+
+<!-- Modal -->
+<div class="overlay" id="overlay"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <button class="x" data-close>×</button>
+  <div class="m-img"><img id="mImg" alt=""></div>
+  <div class="m-body">
+    <span class="kicker" id="mCat" style="margin:0"></span>
+    <h3 id="mName"></h3>
+    <div class="meta" style="justify-content:flex-start;gap:14px"><span id="mRate"></span><span id="mStock" style="color:var(--green)">● В наличии</span></div>
+    <p class="desc" id="mDesc"></p>
+    <ul class="feats" id="mFeats"></ul>
+    <div class="m-buy">
+      <span class="price" id="mPrice"></span>
+      <div class="stepper"><button id="mMinus">−</button><span id="mQty">1</span><button id="mPlus">+</button></div>
+      <button class="btn btn-main" id="mAdd">В корзину</button>
+    </div>
+  </div>
+</div>
+
+<!-- Cart -->
+<aside class="drawer" id="drawer">
+  <div class="d-head"><h3>Корзина</h3><button class="x" data-close>×</button></div>
+  <div class="d-items" id="items"></div>
+  <div class="d-foot">
+    <div class="ship" id="ship"></div>
+    <div class="bar"><i id="bar"></i></div>
+    <div class="total"><span>Итого</span><b id="sum">0 ₸</b></div>
+    <button class="btn btn-main" id="checkout">Оформить заказ</button>
+  </div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const U = (id, w=700) => `https://images.unsplash.com/photo-${id}?w=${w}&q=75&auto=format&fit=crop`;
+
+const CATS = [
+  {id:'all',    name:'Все'},
+  {id:'dog',    name:'Собаки',  img:'1586671267731-da2cf3ceeb80'},
+  {id:'cat',    name:'Кошки',   img:'1596854273338-cbf078ec7071'},
+  {id:'rodent', name:'Грызуны', img:'1721327900409-2393c686bc48'},
+  {id:'bird',   name:'Птицы',   img:'1552728089-57bdde30beb3'},
+  {id:'fish',   name:'Рыбки',   img:'1522069169874-c58ec4b76be5'}
+];
+
+const P = [
+  {id:1, cat:'dog', img:'1676193866128-03a926df76ef', tag:['hit','Хит продаж'], pop:99, rate:4.9, rev:312,
+   name:'Сухой корм для взрослых собак, индейка, 12 кг', price:21900, old:null, unit:'12 кг',
+   desc:'Полнорационный корм для собак средних и крупных пород. Индейка — первый ингредиент, без пшеницы и искусственных красителей. Поддерживает здоровую шерсть, суставы и пищеварение.',
+   feats:['Мясо индейки — 32%','Без пшеницы и сои','Омега-3 и 6 для блестящей шерсти','Хватает примерно на 1,5 месяца']},
+  {id:2, cat:'dog', img:'1568640347023-a616a30bc3bd', tag:null, pop:90, rate:4.8, rev:188,
+   name:'Печенье-косточки для дрессировки, 400 г', price:1890, old:null, unit:'400 г',
+   desc:'Хрустящее печенье с говядиной и овсом — удобная награда на прогулке и во время обучения командам. Помогает очищать зубы от налёта.',
+   feats:['Натуральная говядина и овёс','Без сахара и соли','Удобный размер для поощрения','Зип-пакет сохраняет свежесть']},
+  {id:3, cat:'dog', img:'1591946614720-90a587da4a36', tag:['new','Новинка'], pop:80, rate:4.9, rev:64,
+   name:'Плюшевая игрушка «Слон» с пищалкой', price:2490, old:null, unit:'28 см',
+   desc:'Мягкий полосатый слон из прочного плюша с двойными швами. Внутри пищалка, которая сразу привлекает внимание собаки. Подходит для игр «принеси» и перетягивания.',
+   feats:['Двойные усиленные швы','Пищалка внутри','Можно стирать в машинке','Для собак мелких и средних пород']},
+  {id:4, cat:'dog', img:'1581888227599-779811939961', tag:['sale','−20%'], pop:85, rate:4.8, rev:97,
+   name:'Лежанка-диван с бортиками, размер L', price:15900, old:19900, unit:'90×70 см',
+   desc:'Мягкая лежанка с высокими бортиками, на которые собака любит класть голову. Съёмный чехол из плотной ткани, дно нескользящее и непромокаемое.',
+   feats:['Съёмный чехол на молнии','Нескользящее водостойкое дно','Наполнитель сохраняет форму','В комплекте плед']},
+  {id:5, cat:'dog', img:'1773086727839-8d9180b510fc', tag:null, pop:70, rate:4.7, rev:51,
+   name:'Шлейка с поводком, комплект', price:7900, old:null, unit:'S / M / L',
+   desc:'Анатомическая шлейка не давит на шею и равномерно распределяет нагрузку. Поводок 1,5 м с мягкой ручкой. Регулируется по обхвату груди.',
+   feats:['Не давит на горло','4 точки регулировки','Светоотражающие вставки','Поводок 1,5 м в комплекте']},
+  {id:6, cat:'dog', img:'1586671267731-da2cf3ceeb80', tag:null, pop:62, rate:4.8, rev:73,
+   name:'Нейлоновый ошейник с адресником', price:2990, old:null, unit:'25–40 см',
+   desc:'Прочный ошейник из нейлона с металлической фурнитурой. В комплекте адресник — бесплатно гравируем кличку и номер телефона.',
+   feats:['Гравировка адресника — бесплатно','Металлическая пряжка','Мягкий и лёгкий','5 цветов на выбор']},
+  {id:7, cat:'cat', img:'1764576504536-dbdfa4cb1d9a', tag:['hit','Хит продаж'], pop:98, rate:4.9, rev:276,
+   name:'Сухой корм для кошек с лососем, 2 кг', price:7490, old:null, unit:'2 кг',
+   desc:'Сбалансированный корм для взрослых кошек с лососем и рисом. Поддерживает здоровье мочевыводящих путей и помогает выводить шерсть из желудка.',
+   feats:['Лосось — первый ингредиент','Таурин для сердца и зрения','Контроль образования комков шерсти','Подходит стерилизованным']},
+  {id:8, cat:'cat', img:'1596854273338-cbf078ec7071', tag:['sale','−15%'], pop:88, rate:4.8, rev:154,
+   name:'Влажный корм, кусочки в соусе, 12 шт', price:3400, old:3990, unit:'12 × 85 г',
+   desc:'Набор паучей с нежными кусочками курицы, говядины и кролика в соусе. Кошки едят с удовольствием, а вам не нужно думать, чем разнообразить меню.',
+   feats:['3 вкуса в наборе','Без консервантов','Дополнительная влага в рационе','Удобная порция на одно кормление']},
+  {id:9, cat:'cat', img:'1545249390-6bdfa286032f', tag:null, pop:75, rate:4.7, rev:89,
+   name:'Когтеточка-столбик с игрушкой', price:5900, old:null, unit:'60 см',
+   desc:'Столбик из натурального сизаля на устойчивом основании. На верхушке — игрушка на пружинке, чтобы котёнок прыгал и тянулся. Спасает мебель от когтей.',
+   feats:['Натуральный сизаль','Тяжёлое устойчивое основание','Игрушка на пружине','Легко собрать за 2 минуты']},
+  {id:10, cat:'cat', img:'1759568572593-41dabc3b6029', tag:['new','Новинка'], pop:82, rate:4.9, rev:42,
+   name:'Игровой комплекс для кошек, 3 яруса', price:34900, old:null, unit:'120 см',
+   desc:'Многоуровневый домик с лежанками, когтеточками и висячими игрушками. Кошка сможет лазать, точить когти и отдыхать наверху, наблюдая за всеми.',
+   feats:['3 уровня и домик-норка','Столбы из сизаля','Мягкий плюш на лежанках','Выдерживает до 15 кг']},
+  {id:11, cat:'rodent', img:'1676918555382-fcd06a483e25', tag:null, pop:60, rate:4.8, rev:38,
+   name:'Деревянный домик для хомяка', price:3200, old:null, unit:'15×12 см',
+   desc:'Уютное укрытие из необработанного дерева — безопасно, если питомец решит погрызть. Круглый вход и съёмная крыша для удобной уборки.',
+   feats:['Натуральное дерево без лака','Съёмная крыша','Подходит хомякам и мышам','Помогает стачивать зубы']},
+  {id:12, cat:'rodent', img:'1721327900409-2393c686bc48', tag:null, pop:58, rate:4.7, rev:66,
+   name:'Зерновая смесь для хомяков, 800 г', price:1450, old:null, unit:'800 г',
+   desc:'Разнообразная смесь зёрен, семечек, сушёных овощей и фруктов. Содержит всё необходимое для активной жизни хомяка и крепких зубов.',
+   feats:['Злаки, семечки и овощи','Витамины A, D3, E','Без искусственных добавок','Хватает примерно на 2 месяца']},
+  {id:13, cat:'bird', img:'1552728089-57bdde30beb3', tag:null, pop:55, rate:4.8, rev:47,
+   name:'Корм для попугаев с фруктами, 1 кг', price:2300, old:null, unit:'1 кг',
+   desc:'Зерновая смесь для волнистых и средних попугаев с кусочками фруктов и йодированными гранулами. Поддерживает яркое оперение и хорошее настроение птицы.',
+   feats:['Просо, овёс, канареечное семя','Кусочки яблока и банана','Йод и минералы','Подходит неразлучникам и кореллам']},
+  {id:14, cat:'fish', img:'1764175760902-9cf284d444de', tag:['sale','−10%'], pop:78, rate:4.9, rev:29,
+   name:'Аквариум 60 л с LED-светом и фильтром', price:48600, old:54000, unit:'60 л',
+   desc:'Готовый набор для старта: стеклянный аквариум с крышкой, светодиодной подсветкой и тихим внутренним фильтром. Остаётся запустить грунт, растения и рыбок.',
+   feats:['LED-свет с режимом «день/ночь»','Бесшумный фильтр в комплекте','Закалённое стекло','Бесплатная консультация по запуску']},
+  {id:15, cat:'fish', img:'1522069169874-c58ec4b76be5', tag:null, pop:52, rate:4.7, rev:58,
+   name:'Хлопья для золотых рыбок, 250 мл', price:1690, old:null, unit:'250 мл',
+   desc:'Основной корм для золотых рыбок и других холодноводных видов. Хлопья не мутят воду, а натуральные пигменты усиливают яркость окраски.',
+   feats:['Не мутит воду','Усиливает яркость окраса','Спирулина и витамины','Удобный дозатор']},
+  {id:16, cat:'cat', img:'1636543459630-8975a3548121', tag:null, pop:66, rate:4.6, rev:35,
+   name:'Когтеточка-столб с площадкой, 90 см', price:12900, old:null, unit:'90 см',
+   desc:'Высокий столбик, обмотанный сизалем, с мягкой площадкой наверху. Кошка может тянуться во весь рост, а свисающая игрушка добавит азарта.',
+   feats:['Высота 90 см','Плюшевая площадка','Свисающая игрушка','Не шатается благодаря широкому основанию']}
+];
+
+const FREE = 15000;
+let cat='all', q='', sort='pop', cur=null, mq=1;
+const cart = {}, favs = new Set();
+const $ = s => document.querySelector(s);
+const fmt = n => n.toLocaleString('ru-RU') + ' ₸';
+
+/* marquee */
+const words = ['Корма премиум-класса','Доставка в день заказа','Игрушки и лакомства','Совет ветеринара','Оплата Kaspi','Лежанки и домики','Аквариумы под ключ'];
+$('#track').innerHTML = [...words,...words].map(w=>`<span>${w}</span>`).join('');
+
+/* chips */
+function chips(){
+  $('#chips').innerHTML = CATS.map(c=>{
+    const n = c.id==='all' ? P.length : P.filter(p=>p.cat===c.id).length;
+    const pic = c.img ? `<img src="${U(c.img,100)}" alt="">` : `<span class="all">🐾</span>`;
+    return `<button class="chip ${c.id===cat?'active':''}" data-cat="${c.id}">${pic}${c.name} <small>${n}</small></button>`;
+  }).join('');
+}
+
+/* grid */
+const catName = id => CATS.find(c=>c.id===id).name;
+function grid(){
+  let list = P.filter(p=>(cat==='all'||p.cat===cat) && (p.name+' '+p.desc).toLowerCase().includes(q));
+  list.sort(sort==='asc'?(a,b)=>a.price-b.price : sort==='desc'?(a,b)=>b.price-a.price : (a,b)=>b.pop-a.pop);
+  if(!list.length){ $('#grid').innerHTML='<div class="empty-state"><div>🐶</div>Ничего не нашлось. Попробуйте другой запрос</div>'; return; }
+  $('#grid').innerHTML = list.map(p=>`
+    <article class="card reveal" data-open="${p.id}">
+      <div class="card-img">
+        ${p.tag?`<span class="tag ${p.tag[0]}">${p.tag[1]}</span>`:''}
+        <button class="fav ${favs.has(p.id)?'on':''}" data-fav="${p.id}" aria-label="В избранное"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-9.3-8.7C1 8 3 4.5 6.5 4.5c2 0 3.5 1.2 5.5 3.3 2-2.1 3.5-3.3 5.5-3.3C21 4.5 23 8 21.3 11.3 19 15.6 12 20 12 20z"/></svg></button>
+        <img src="${U(p.img)}" alt="${p.name}" loading="lazy">
+        <span class="quick">Подробнее</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span>${catName(p.cat)} · ${p.unit}</span><span><b>★ ${p.rate}</b> (${p.rev})</span></div>
+        <h3>${p.name}</h3>
+        <p>${p.desc}</p>
+        <div class="card-foot">
+          <span class="price">${p.old?`<s>${fmt(p.old)}</s>`:''}${fmt(p.price)}</span>
+          <button class="add" data-add="${p.id}" aria-label="В корзину"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+        </div>
+      </div>
+    </article>`).join('');
+  observe();
+}
+
+/* reveal */
+const io = new IntersectionObserver(es=>es.forEach((e)=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }),{threshold:.12});
+function observe(){ document.querySelectorAll('.reveal:not(.in)').forEach((el,i)=>{ el.style.transitionDelay = (el.classList.contains('card') ? (i%4)*80 : 0)+'ms'; io.observe(el); }); }
+
+/* counters */
+const cio = new IntersectionObserver(es=>es.forEach(e=>{
+  if(!e.isIntersecting) return; cio.unobserve(e.target);
+  const el=e.target, end=+el.dataset.count, t0=performance.now();
+  (function step(t){ const k=Math.min(1,(t-t0)/1400), v=Math.round(end*(1-Math.pow(1-k,3)));
+    el.textContent=v.toLocaleString('ru-RU')+(k===1?el.dataset.suffix:''); if(k<1) requestAnimationFrame(step); })(t0);
+}));
+document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+
+/* cart */
+function addToCart(id, n=1, fromEl){
+  cart[id]=(cart[id]||0)+n;
+  if(fromEl) fly(fromEl, id);
+  setTimeout(renderCart, fromEl?650:0);
+  toast('Добавлено в корзину 🐾');
+}
+function fly(el, id){
+  const p=P.find(x=>x.id==id), r=el.getBoundingClientRect(), t=$('#cartBtn').getBoundingClientRect();
+  const img=document.createElement('img'); img.src=U(p.img,140); img.className='fly';
+  img.style.left=(r.left+r.width/2-35)+'px'; img.style.top=(r.top+r.height/2-35)+'px';
+  document.body.appendChild(img);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{ img.style.left=(t.left+t.width/2-18)+'px'; img.style.top=(t.top+t.height/2-18)+'px'; img.style.width=img.style.height='36px'; img.style.opacity='.4'; }));
+  setTimeout(()=>img.remove(),800);
+}
+function renderCart(){
+  const ids=Object.keys(cart), cnt=ids.reduce((s,k)=>s+cart[k],0);
+  const b=$('#count'); b.textContent=cnt; b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
+  $('#items').innerHTML = ids.length ? ids.map(id=>{ const p=P.find(x=>x.id==id); return `
+    <div class="line"><img src="${U(p.img,160)}" alt="">
+      <div><b>${p.name}</b><small>${fmt(p.price)}</small>
+        <div class="mini"><button data-dec="${id}">−</button><span>${cart[id]}</span><button data-inc="${id}">+</button></div></div>
+      <span class="line-sum">${fmt(p.price*cart[id])}</span></div>`;}).join('')
+    : '<div class="d-empty"><div>🐕</div><br>Корзина пока пустая.<br>Питомец ждёт подарков!</div>';
+  const sum=ids.reduce((s,id)=>s+P.find(x=>x.id==id).price*cart[id],0);
+  $('#sum').textContent=fmt(sum);
+  $('#ship').textContent = sum>=FREE ? '🎉 Доставка бесплатная!' : `До бесплатной доставки: ${fmt(FREE-sum)}`;
+  $('#bar').style.width=Math.min(100,sum/FREE*100)+'%';
+}
+
+/* modal */
+function openModal(id){
+  cur=P.find(p=>p.id==id); mq=1;
+  $('#mImg').src=U(cur.img,900); $('#mImg').alt=cur.name;
+  $('#mCat').textContent=catName(cur.cat)+' · '+cur.unit;
+  $('#mName').textContent=cur.name;
+  $('#mRate').innerHTML=`<b>★ ${cur.rate}</b> · ${cur.rev} отзывов`;
+  $('#mDesc').textContent=cur.desc;
+  $('#mFeats').innerHTML=cur.feats.map(f=>`<li>${f}</li>`).join('');
+  $('#mPrice').innerHTML=(cur.old?`<s>${fmt(cur.old)}</s>`:'')+fmt(cur.price);
+  $('#mQty').textContent=1;
+  $('#modal').classList.add('open'); $('#overlay').classList.add('open');
+}
+function openCart(){ $('#drawer').classList.add('open'); $('#overlay').classList.add('open'); }
+function closeAll(){ ['#modal','#drawer','#overlay'].forEach(s=>$(s).classList.remove('open')); }
+
+let tt; function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('show'); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('show'),2000); }
+
+/* events */
+document.addEventListener('click',e=>{
+  const t=e.target;
+  const c=t.closest('[data-cat]'); if(c){ cat=c.dataset.cat; chips(); grid(); return; }
+  const go=t.closest('[data-go]'); if(go){ cat=go.dataset.go; chips(); grid(); }
+  const f=t.closest('[data-fav]'); if(f){ e.stopPropagation(); const id=+f.dataset.fav; favs.has(id)?favs.delete(id):favs.add(id); f.classList.toggle('on'); if(favs.has(id)) toast('Добавлено в избранное ❤'); return; }
+  const a=t.closest('[data-add]'); if(a){ e.stopPropagation(); addToCart(a.dataset.add,1,a); a.classList.add('done'); setTimeout(()=>a.classList.remove('done'),900); return; }
+  const o=t.closest('[data-open]'); if(o){ openModal(o.dataset.open); return; }
+  const i=t.closest('[data-inc]'); if(i){ cart[i.dataset.inc]++; renderCart(); }
+  const d=t.closest('[data-dec]'); if(d){ const k=d.dataset.dec; if(--cart[k]<=0) delete cart[k]; renderCart(); }
+  if(t.closest('[data-close]') || t.id==='overlay') closeAll();
+});
+$('#mPlus').onclick=()=>{ $('#mQty').textContent=++mq; };
+$('#mMinus').onclick=()=>{ if(mq>1) $('#mQty').textContent=--mq; };
+$('#mAdd').onclick=()=>{ addToCart(cur.id,mq); closeAll(); setTimeout(openCart,250); };
+$('#cartBtn').onclick=openCart;
+$('#checkout').onclick=()=>{ if(!Object.keys(cart).length) return toast('Корзина пуста'); Object.keys(cart).forEach(k=>delete cart[k]); renderCart(); closeAll(); toast('Заказ принят! Скоро позвоним 📞'); };
+$('#q').addEventListener('input',e=>{ q=e.target.value.trim().toLowerCase(); grid(); });
+$('#sort').addEventListener('change',e=>{ sort=e.target.value; grid(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeAll(); });
+addEventListener('scroll',()=>$('#hdr').classList.toggle('scrolled',scrollY>10),{passive:true});
+
+chips(); grid(); renderCart();
+</script>
+</body>
+</html>
